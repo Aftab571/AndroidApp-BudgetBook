@@ -1,0 +1,879 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: DashboardActivity</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.budgetbook</a> ]
+</div>
+
+<h1>Coverage Summary for Class: DashboardActivity (com.example.budgetbook)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DashboardActivity</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 454)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">DashboardActivity$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 457)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.budgetbook;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import android.Manifest;
+<i>4</i>&nbsp;import android.app.AlertDialog;
+<i>5</i>&nbsp;import android.app.Notification;
+<i>6</i>&nbsp;import android.app.NotificationChannel;
+<i>7</i>&nbsp;import android.app.NotificationManager;
+<i>8</i>&nbsp;import android.app.PendingIntent;
+<i>9</i>&nbsp;import android.content.Context;
+<i>10</i>&nbsp;import android.content.DialogInterface;
+<i>11</i>&nbsp;import android.content.Intent;
+<i>12</i>&nbsp;import android.content.pm.PackageManager;
+<i>13</i>&nbsp;import android.graphics.Color;
+<i>14</i>&nbsp;import android.net.Uri;
+<i>15</i>&nbsp;import android.os.Build;
+<i>16</i>&nbsp;import android.os.Environment;
+<i>17</i>&nbsp;import android.support.v4.app.ActivityCompat;
+<i>18</i>&nbsp;import android.support.v4.app.NotificationCompat;
+<i>19</i>&nbsp;import android.support.v4.content.FileProvider;
+<i>20</i>&nbsp;import android.support.v7.app.AppCompatActivity;
+<i>21</i>&nbsp;import android.os.Bundle;
+<i>22</i>&nbsp;import android.support.v7.widget.Toolbar;
+<i>23</i>&nbsp;import android.util.Log;
+<i>24</i>&nbsp;import android.view.Menu;
+<i>25</i>&nbsp;import android.view.MenuItem;
+<i>26</i>&nbsp;import android.view.View;
+<i>27</i>&nbsp;import android.widget.Toast;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;import com.example.budgetbook.dao.DataBaseHandlerImpl;
+<i>30</i>&nbsp;import com.example.budgetbook.dao.FixedCompDaoHandler;
+<i>31</i>&nbsp;import com.example.budgetbook.dao.LimitDao;
+<i>32</i>&nbsp;import com.example.budgetbook.dao.LimitDaoImpl;
+<i>33</i>&nbsp;import com.example.budgetbook.dao.UnFxdDao;
+<i>34</i>&nbsp;import com.example.budgetbook.dao.UnFxdDaoImpl;
+<i>35</i>&nbsp;import com.example.budgetbook.model.FilterVO;
+<i>36</i>&nbsp;import com.example.budgetbook.model.FixedVO;
+<i>37</i>&nbsp;import com.example.budgetbook.service.LimitService;
+<i>38</i>&nbsp;import com.example.budgetbook.service.LimitServiceImpl;
+<i>39</i>&nbsp;import com.example.budgetbook.service.UnFxdService;
+<i>40</i>&nbsp;import com.example.budgetbook.service.UnFxdServiceImpl;
+<i>41</i>&nbsp;import com.example.budgetbook.utility.CommonUtility;
+<i>42</i>&nbsp;import com.itextpdf.text.BaseColor;
+<i>43</i>&nbsp;import com.itextpdf.text.Document;
+<i>44</i>&nbsp;import com.itextpdf.text.DocumentException;
+<i>45</i>&nbsp;import com.itextpdf.text.Element;
+<i>46</i>&nbsp;import com.itextpdf.text.Font;
+<i>47</i>&nbsp;import com.itextpdf.text.FontFactory;
+<i>48</i>&nbsp;import com.itextpdf.text.Paragraph;
+<i>49</i>&nbsp;import com.itextpdf.text.Phrase;
+<i>50</i>&nbsp;import com.itextpdf.text.pdf.FontSelector;
+<i>51</i>&nbsp;import com.itextpdf.text.pdf.PdfPCell;
+<i>52</i>&nbsp;import com.itextpdf.text.pdf.PdfPTable;
+<i>53</i>&nbsp;import com.itextpdf.text.pdf.PdfWriter;
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;import java.io.File;
+<i>56</i>&nbsp;import java.io.FileNotFoundException;
+<i>57</i>&nbsp;import java.io.FileOutputStream;
+<i>58</i>&nbsp;import java.io.IOException;
+<i>59</i>&nbsp;import java.io.OutputStream;
+<i>60</i>&nbsp;import java.text.DateFormat;
+<i>61</i>&nbsp;import java.text.SimpleDateFormat;
+<i>62</i>&nbsp;import java.util.ArrayList;
+<i>63</i>&nbsp;import java.util.Calendar;
+<i>64</i>&nbsp;import java.util.Date;
+<i>65</i>&nbsp;import java.util.List;
+<i>66</i>&nbsp;
+<b class="nc"><i>67</i>&nbsp;public class DashboardActivity extends AppCompatActivity {</b>
+<b class="nc"><i>68</i>&nbsp;    FileProvider fileProvider = new FileProvider();</b>
+<i>69</i>&nbsp;    private int pin;
+<i>70</i>&nbsp;    private float income;
+<i>71</i>&nbsp;    private Context mContext;
+<i>72</i>&nbsp;    private static final String TAG = &quot;DashboardActivity&quot;;
+<b class="nc"><i>73</i>&nbsp;    final private int REQUEST_CODE_ASK_PERMISSIONS = 111;</b>
+<i>74</i>&nbsp;    private File pdfFile;
+<b class="nc"><i>75</i>&nbsp;    public CommonUtility utility = new CommonUtility();</b>
+<i>76</i>&nbsp;    @Override
+<i>77</i>&nbsp;    protected void onCreate(Bundle savedInstanceState) {
+<b class="nc"><i>78</i>&nbsp;        super.onCreate(savedInstanceState);</b>
+<b class="nc"><i>79</i>&nbsp;        mContext = getApplicationContext();</b>
+<b class="nc"><i>80</i>&nbsp;        setContentView(R.layout.activity_dashboard);</b>
+<b class="nc"><i>81</i>&nbsp;       Intent i = getIntent();</b>
+<b class="nc"><i>82</i>&nbsp;       pin=i.getIntExtra(&quot;pin&quot;,0);</b>
+<b class="nc"><i>83</i>&nbsp;       income= i.getFloatExtra(&quot;income&quot;,0f);</b>
+<b class="nc"><i>84</i>&nbsp;        Toolbar toolbar = findViewById(R.id.tool_bar);</b>
+<b class="nc"><i>85</i>&nbsp;        setSupportActionBar(toolbar);</b>
+<b class="nc"><i>86</i>&nbsp;        setNotifications();</b>
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    }
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    private void setNotifications (){
+<i>91</i>&nbsp;
+<b class="nc"><i>92</i>&nbsp;        DateFormat sdf = new SimpleDateFormat(&quot;dd-MM-yyyy&quot;);</b>
+<b class="nc"><i>93</i>&nbsp;        Calendar cal = Calendar.getInstance();</b>
+<b class="nc"><i>94</i>&nbsp;        int month =cal.get(Calendar.MONTH);</b>
+<b class="nc"><i>95</i>&nbsp;        int year =cal.get(Calendar.YEAR);</b>
+<b class="nc"><i>96</i>&nbsp;        String start_date = &quot;01-&quot;+(month&lt;10?&quot;0&quot;+(month+1):(month+1))+&quot;-&quot;+year;</b>
+<b class="nc"><i>97</i>&nbsp;        Date today = new Date();</b>
+<i>98</i>&nbsp;
+<b class="nc"><i>99</i>&nbsp;        Calendar calendar = Calendar.getInstance();</b>
+<b class="nc"><i>100</i>&nbsp;        calendar.setTime(today);</b>
+<i>101</i>&nbsp;
+<b class="nc"><i>102</i>&nbsp;        calendar.add(Calendar.MONTH, 1);</b>
+<b class="nc"><i>103</i>&nbsp;        calendar.set(Calendar.DAY_OF_MONTH, 1);</b>
+<b class="nc"><i>104</i>&nbsp;        calendar.add(Calendar.DATE, -1);</b>
+<b class="nc"><i>105</i>&nbsp;        Date lastDayOfMonth = calendar.getTime();</b>
+<i>106</i>&nbsp;
+<b class="nc"><i>107</i>&nbsp;        String end_date = sdf.format(lastDayOfMonth);</b>
+<b class="nc"><i>108</i>&nbsp;        UnFxdDao undao = new UnFxdDaoImpl(mContext);</b>
+<b class="nc"><i>109</i>&nbsp;        FilterVO vo = new FilterVO();</b>
+<b class="nc"><i>110</i>&nbsp;        vo.setFrom(start_date);</b>
+<b class="nc"><i>111</i>&nbsp;        vo.setTo(end_date);</b>
+<b class="nc"><i>112</i>&nbsp;        ArrayList&lt;FixedVO&gt; undata=((UnFxdDaoImpl) undao).getUnFxdTableFilterData(vo);</b>
+<b class="nc"><i>113</i>&nbsp;        LimitDao lmdao = new LimitDaoImpl(mContext);</b>
+<b class="nc"><i>114</i>&nbsp;        ArrayList&lt;FixedVO&gt; lmList=lmdao.getLimTableData();</b>
+<b class="nc"><i>115</i>&nbsp;        float food_amt = 0f;</b>
+<b class="nc"><i>116</i>&nbsp;        float Super_amt = 0f;</b>
+<b class="nc"><i>117</i>&nbsp;        float Medical_amt = 0f;</b>
+<b class="nc"><i>118</i>&nbsp;        float Travel_amt = 0f;</b>
+<b class="nc"><i>119</i>&nbsp;        float Entertainment_amt = 0f;</b>
+<b class="nc"><i>120</i>&nbsp;        float Education_amt = 0f;</b>
+<b class="nc"><i>121</i>&nbsp;        float Shopping_amt = 0f;</b>
+<b class="nc"><i>122</i>&nbsp;        float Sports_amt = 0f;</b>
+<b class="nc"><i>123</i>&nbsp;        float Others_amt = 0f;</b>
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;
+<b class="nc"><i>126</i>&nbsp;        for (FixedVO data : undata) {</b>
+<b class="nc"><i>127</i>&nbsp;            if (data.getComponent().equals(&quot;Food&quot;)) {</b>
+<b class="nc"><i>128</i>&nbsp;                food_amt = food_amt + data.getUnfxd_amt();</b>
+<b class="nc"><i>129</i>&nbsp;            } else if (data.getComponent().equals(&quot;Super market&quot;)) {</b>
+<b class="nc"><i>130</i>&nbsp;                Super_amt = Super_amt + data.getUnfxd_amt();</b>
+<b class="nc"><i>131</i>&nbsp;            } else if (data.getComponent().equals(&quot;Medical&quot;)) {</b>
+<b class="nc"><i>132</i>&nbsp;                Medical_amt = Medical_amt + data.getUnfxd_amt();</b>
+<b class="nc"><i>133</i>&nbsp;            } else if (data.getComponent().equals(&quot;Travel&quot;)) {</b>
+<b class="nc"><i>134</i>&nbsp;                Travel_amt = Travel_amt + data.getUnfxd_amt();</b>
+<b class="nc"><i>135</i>&nbsp;            } else if (data.getComponent().equals(&quot;Entertainment&quot;)) {</b>
+<b class="nc"><i>136</i>&nbsp;                Entertainment_amt = Entertainment_amt + data.getUnfxd_amt();</b>
+<b class="nc"><i>137</i>&nbsp;            } else if (data.getComponent().equals(&quot;Education&quot;)) {</b>
+<b class="nc"><i>138</i>&nbsp;                Education_amt = Education_amt + data.getUnfxd_amt();</b>
+<b class="nc"><i>139</i>&nbsp;            } else if (data.getComponent().equals(&quot;Shopping&quot;)) {</b>
+<b class="nc"><i>140</i>&nbsp;                Shopping_amt = Shopping_amt + data.getUnfxd_amt();</b>
+<b class="nc"><i>141</i>&nbsp;            } else if (data.getComponent().equals(&quot;Sports &amp; Fitness&quot;)) {</b>
+<b class="nc"><i>142</i>&nbsp;                Sports_amt = Sports_amt + data.getUnfxd_amt();</b>
+<i>143</i>&nbsp;            } else {
+<b class="nc"><i>144</i>&nbsp;                Others_amt = Others_amt + data.getUnfxd_amt();</b>
+<i>145</i>&nbsp;            }
+<b class="nc"><i>146</i>&nbsp;        }</b>
+<i>147</i>&nbsp;
+<b class="nc"><i>148</i>&nbsp;        StringBuilder sb75 = new StringBuilder().append(&quot;Your Unfixed expenditure for : &quot;);</b>
+<b class="nc"><i>149</i>&nbsp;        StringBuilder sb100 = new StringBuilder().append(&quot;Your Unfixed Expenditure for : &quot;);</b>
+<b class="nc"><i>150</i>&nbsp;        int counterFor75=0;</b>
+<b class="nc"><i>151</i>&nbsp;        int counterFor100=0;</b>
+<i>152</i>&nbsp;
+<b class="nc"><i>153</i>&nbsp;        for (FixedVO data: lmList) {</b>
+<b class="nc"><i>154</i>&nbsp;            switch (data.getComponent()){</b>
+<i>155</i>&nbsp;                case &quot;Food&quot;:
+<b class="nc"><i>156</i>&nbsp;                    if(food_amt&gt;0.75*data.getLim_amt() &amp;&amp; food_amt&lt;=data.getLim_amt()){</b>
+<b class="nc"><i>157</i>&nbsp;                        sb75.append(&quot;Food,&quot;);</b>
+<b class="nc"><i>158</i>&nbsp;                        counterFor75++;</b>
+<i>159</i>&nbsp;                    }
+<b class="nc"><i>160</i>&nbsp;                    else if(food_amt&gt;data.getLim_amt()){</b>
+<b class="nc"><i>161</i>&nbsp;                        sb100.append(&quot;Food,&quot;);</b>
+<b class="nc"><i>162</i>&nbsp;                        counterFor100++;</b>
+<i>163</i>&nbsp;                    }
+<i>164</i>&nbsp;                    break;
+<i>165</i>&nbsp;                case &quot;Super market&quot;:
+<b class="nc"><i>166</i>&nbsp;                    if(Super_amt&gt;0.75*data.getLim_amt() &amp;&amp; Super_amt&lt;=data.getLim_amt()){</b>
+<b class="nc"><i>167</i>&nbsp;                        sb75.append(&quot;Super Market,&quot;);</b>
+<b class="nc"><i>168</i>&nbsp;                        counterFor75++;</b>
+<i>169</i>&nbsp;                    }
+<b class="nc"><i>170</i>&nbsp;                    else if(Super_amt&gt;data.getLim_amt()){</b>
+<b class="nc"><i>171</i>&nbsp;                        sb100.append(&quot;Super Market,&quot;);</b>
+<b class="nc"><i>172</i>&nbsp;                        counterFor100++;</b>
+<i>173</i>&nbsp;                    }
+<i>174</i>&nbsp;                    break;
+<i>175</i>&nbsp;                case &quot;Medical&quot;:
+<b class="nc"><i>176</i>&nbsp;                    if(Medical_amt&gt;0.75*data.getLim_amt() &amp;&amp; Medical_amt&lt;=data.getLim_amt()){</b>
+<b class="nc"><i>177</i>&nbsp;                        sb75.append(&quot;Medical,&quot;);</b>
+<b class="nc"><i>178</i>&nbsp;                        counterFor75++;</b>
+<i>179</i>&nbsp;                    }
+<b class="nc"><i>180</i>&nbsp;                    else if(Medical_amt&gt;data.getLim_amt()){</b>
+<b class="nc"><i>181</i>&nbsp;                        sb100.append(&quot;Medical,&quot;);</b>
+<b class="nc"><i>182</i>&nbsp;                        counterFor100++;</b>
+<i>183</i>&nbsp;                    }
+<i>184</i>&nbsp;                    break;
+<i>185</i>&nbsp;                case &quot;Travel&quot;:
+<b class="nc"><i>186</i>&nbsp;                    if(Travel_amt&gt;0.75*data.getLim_amt() &amp;&amp; Travel_amt&lt;=data.getLim_amt()){</b>
+<b class="nc"><i>187</i>&nbsp;                        sb75.append(&quot;Travel,&quot;);</b>
+<b class="nc"><i>188</i>&nbsp;                        counterFor75++;</b>
+<i>189</i>&nbsp;                    }
+<b class="nc"><i>190</i>&nbsp;                    else if(Travel_amt&gt;data.getLim_amt()){</b>
+<b class="nc"><i>191</i>&nbsp;                        sb100.append(&quot;Travel,&quot;);</b>
+<b class="nc"><i>192</i>&nbsp;                        counterFor100++;</b>
+<i>193</i>&nbsp;                    }
+<i>194</i>&nbsp;                    break;
+<i>195</i>&nbsp;                case &quot;Entertainment&quot;:
+<b class="nc"><i>196</i>&nbsp;                    if(Entertainment_amt&gt;0.75*data.getLim_amt() &amp;&amp; Entertainment_amt&lt;=data.getLim_amt()){</b>
+<b class="nc"><i>197</i>&nbsp;                        sb75.append(&quot;Entertainment,&quot;);</b>
+<b class="nc"><i>198</i>&nbsp;                        counterFor75++;</b>
+<i>199</i>&nbsp;                    }
+<b class="nc"><i>200</i>&nbsp;                    else if(Entertainment_amt&gt;data.getLim_amt()){</b>
+<b class="nc"><i>201</i>&nbsp;                        sb100.append(&quot;Entertainment,&quot;);</b>
+<b class="nc"><i>202</i>&nbsp;                        counterFor100++;</b>
+<i>203</i>&nbsp;                    }
+<i>204</i>&nbsp;                    break;
+<i>205</i>&nbsp;                case &quot;Education&quot;:
+<b class="nc"><i>206</i>&nbsp;                    if(Education_amt&gt;0.75*data.getLim_amt() &amp;&amp; Education_amt&lt;=data.getLim_amt()){</b>
+<b class="nc"><i>207</i>&nbsp;                        sb75.append(&quot;Education,&quot;);</b>
+<b class="nc"><i>208</i>&nbsp;                        counterFor75++;</b>
+<i>209</i>&nbsp;                    }
+<b class="nc"><i>210</i>&nbsp;                    else if(Education_amt&gt;data.getLim_amt()){</b>
+<b class="nc"><i>211</i>&nbsp;                        sb100.append(&quot;Education,&quot;);</b>
+<b class="nc"><i>212</i>&nbsp;                        counterFor100++;</b>
+<i>213</i>&nbsp;                    }
+<i>214</i>&nbsp;                    break;
+<i>215</i>&nbsp;                case &quot;Shopping&quot;:
+<b class="nc"><i>216</i>&nbsp;                    if(Shopping_amt&gt;0.75*data.getLim_amt() &amp;&amp; Shopping_amt&lt;=data.getLim_amt()){</b>
+<b class="nc"><i>217</i>&nbsp;                        sb75.append(&quot;Shopping,&quot;);</b>
+<b class="nc"><i>218</i>&nbsp;                        counterFor75++;</b>
+<i>219</i>&nbsp;                    }
+<b class="nc"><i>220</i>&nbsp;                    else if(Shopping_amt&gt;data.getLim_amt()){</b>
+<b class="nc"><i>221</i>&nbsp;                        sb100.append(&quot;Shopping,&quot;);</b>
+<b class="nc"><i>222</i>&nbsp;                        counterFor100++;</b>
+<i>223</i>&nbsp;                    }
+<i>224</i>&nbsp;                    break;
+<i>225</i>&nbsp;                case &quot;Sports &amp; Fitness&quot;:
+<b class="nc"><i>226</i>&nbsp;                    if(Sports_amt&gt;0.75*data.getLim_amt() &amp;&amp; Sports_amt&lt;=data.getLim_amt()){</b>
+<b class="nc"><i>227</i>&nbsp;                        sb75.append(&quot;Sports,&quot;);</b>
+<b class="nc"><i>228</i>&nbsp;                        counterFor75++;</b>
+<i>229</i>&nbsp;                    }
+<b class="nc"><i>230</i>&nbsp;                    else if(Sports_amt&gt;data.getLim_amt()){</b>
+<b class="nc"><i>231</i>&nbsp;                        sb100.append(&quot;Sports,&quot;);</b>
+<b class="nc"><i>232</i>&nbsp;                        counterFor100++;</b>
+<i>233</i>&nbsp;                    }
+<i>234</i>&nbsp;                    break;
+<i>235</i>&nbsp;                case &quot;Others&quot;:
+<b class="nc"><i>236</i>&nbsp;                    if(Others_amt&gt;0.75*data.getLim_amt() &amp;&amp; Others_amt&lt;=data.getLim_amt()){</b>
+<b class="nc"><i>237</i>&nbsp;                        sb75.append(&quot;Others category,&quot;);</b>
+<b class="nc"><i>238</i>&nbsp;                        counterFor75++;</b>
+<i>239</i>&nbsp;                    }
+<b class="nc"><i>240</i>&nbsp;                    else if(Others_amt&gt;data.getLim_amt()){</b>
+<b class="nc"><i>241</i>&nbsp;                        sb100.append(&quot;Others category,&quot;);</b>
+<b class="nc"><i>242</i>&nbsp;                        counterFor100++;</b>
+<i>243</i>&nbsp;                    }
+<i>244</i>&nbsp;                    break;
+<i>245</i>&nbsp;            }
+<b class="nc"><i>246</i>&nbsp;        }</b>
+<b class="nc"><i>247</i>&nbsp;        sb75.append(&quot; has exceeded 75% of your set expenses limits for this month.&quot;);</b>
+<b class="nc"><i>248</i>&nbsp;        sb100.append(&quot; has exceeded 100% of your set expenses limits for this month.&quot;);</b>
+<b class="nc"><i>249</i>&nbsp;        if(counterFor75&gt;0) {</b>
+<b class="nc"><i>250</i>&nbsp;            Notification.Builder builder = null;</b>
+<b class="nc"><i>251</i>&nbsp;            if (android.os.Build.VERSION.SDK_INT &gt;= android.os.Build.VERSION_CODES.JELLY_BEAN) {</b>
+<b class="nc"><i>252</i>&nbsp;                builder = new Notification.Builder(this)</b>
+<b class="nc"><i>253</i>&nbsp;                        .setSmallIcon(R.drawable.appicon)</b>
+<b class="nc"><i>254</i>&nbsp;                        .setContentTitle(&quot;Alert&quot;)</b>
+<b class="nc"><i>255</i>&nbsp;                        .setStyle(new Notification.BigTextStyle().bigText(sb75))</b>
+<b class="nc"><i>256</i>&nbsp;                        .setContentText(sb75);</b>
+<i>257</i>&nbsp;            }
+<i>258</i>&nbsp;
+<b class="nc"><i>259</i>&nbsp;            Intent notifIntent = new Intent(this, DashboardActivity.class);</b>
+<b class="nc"><i>260</i>&nbsp;            PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notifIntent, PendingIntent.FLAG_UPDATE_CURRENT);</b>
+<b class="nc"><i>261</i>&nbsp;            builder.setContentIntent(contentIntent);</b>
+<i>262</i>&nbsp;
+<b class="nc"><i>263</i>&nbsp;            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);</b>
+<b class="nc"><i>264</i>&nbsp;            if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.JELLY_BEAN) {</b>
+<b class="nc"><i>265</i>&nbsp;                String channelId = &quot;_budget_book_alert1&quot;;</b>
+<b class="nc"><i>266</i>&nbsp;                if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.O) {</b>
+<b class="nc"><i>267</i>&nbsp;                    NotificationChannel channel = new NotificationChannel(</b>
+<i>268</i>&nbsp;                            channelId,
+<i>269</i>&nbsp;                            &quot;Budget Book&quot;,
+<i>270</i>&nbsp;                            manager.IMPORTANCE_DEFAULT);
+<i>271</i>&nbsp;
+<b class="nc"><i>272</i>&nbsp;                    manager.createNotificationChannel(channel);</b>
+<b class="nc"><i>273</i>&nbsp;                    builder.setChannelId(channelId);</b>
+<i>274</i>&nbsp;                }
+<i>275</i>&nbsp;
+<b class="nc"><i>276</i>&nbsp;                manager.notify(0, builder.build());</b>
+<i>277</i>&nbsp;            }
+<i>278</i>&nbsp;        }
+<b class="nc"><i>279</i>&nbsp;        if(counterFor100&gt;0) {</b>
+<b class="nc"><i>280</i>&nbsp;            Notification.Builder builder100 = null;</b>
+<b class="nc"><i>281</i>&nbsp;            if (android.os.Build.VERSION.SDK_INT &gt;= android.os.Build.VERSION_CODES.JELLY_BEAN) {</b>
+<b class="nc"><i>282</i>&nbsp;                builder100 = new Notification.Builder(this)</b>
+<b class="nc"><i>283</i>&nbsp;                        .setSmallIcon(R.drawable.appicon)</b>
+<b class="nc"><i>284</i>&nbsp;                        .setContentTitle(&quot;Warning&quot;)</b>
+<b class="nc"><i>285</i>&nbsp;                        .setStyle(new Notification.BigTextStyle().bigText(sb100))</b>
+<b class="nc"><i>286</i>&nbsp;                        .setContentText(sb100);;</b>
+<i>287</i>&nbsp;            }
+<i>288</i>&nbsp;
+<i>289</i>&nbsp;
+<b class="nc"><i>290</i>&nbsp;            Intent notifIntent = new Intent(this, DashboardActivity.class);</b>
+<b class="nc"><i>291</i>&nbsp;            PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notifIntent, PendingIntent.FLAG_UPDATE_CURRENT);</b>
+<b class="nc"><i>292</i>&nbsp;            builder100.setContentIntent(contentIntent);</b>
+<i>293</i>&nbsp;
+<b class="nc"><i>294</i>&nbsp;            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);</b>
+<b class="nc"><i>295</i>&nbsp;            if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.JELLY_BEAN) {</b>
+<b class="nc"><i>296</i>&nbsp;                String channelId = &quot;_budget_book_alert2&quot;;</b>
+<b class="nc"><i>297</i>&nbsp;                if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.O) {</b>
+<b class="nc"><i>298</i>&nbsp;                NotificationChannel channel = new NotificationChannel(</b>
+<i>299</i>&nbsp;                        channelId,
+<i>300</i>&nbsp;                        &quot;Budget Book&quot;,
+<i>301</i>&nbsp;                        manager.IMPORTANCE_DEFAULT);
+<i>302</i>&nbsp;
+<b class="nc"><i>303</i>&nbsp;                    manager.createNotificationChannel(channel);</b>
+<b class="nc"><i>304</i>&nbsp;                    builder100.setChannelId(channelId);</b>
+<i>305</i>&nbsp;                }
+<i>306</i>&nbsp;
+<b class="nc"><i>307</i>&nbsp;                manager.notify(1, builder100.build());</b>
+<i>308</i>&nbsp;            }
+<i>309</i>&nbsp;        }
+<i>310</i>&nbsp;    }
+<i>311</i>&nbsp;
+<i>312</i>&nbsp;    public void update_fxd(View v){
+<b class="nc"><i>313</i>&nbsp;        Intent i = new Intent(DashboardActivity.this, FixedActivity.class);</b>
+<b class="nc"><i>314</i>&nbsp;        i.putExtra(&quot;fromDash&quot;,&quot;Y&quot;);</b>
+<b class="nc"><i>315</i>&nbsp;        startActivity(i);</b>
+<i>316</i>&nbsp;
+<i>317</i>&nbsp;    }
+<i>318</i>&nbsp;    public void update_lim(View v){
+<b class="nc"><i>319</i>&nbsp;        Intent i = new Intent(DashboardActivity.this, LimitsActivity.class);</b>
+<b class="nc"><i>320</i>&nbsp;        i.putExtra(&quot;fromDash&quot;,&quot;Y&quot;);</b>
+<b class="nc"><i>321</i>&nbsp;        startActivity(i);</b>
+<i>322</i>&nbsp;
+<i>323</i>&nbsp;    }
+<i>324</i>&nbsp;    public void add_unfxd_exp(View v){
+<b class="nc"><i>325</i>&nbsp;        Intent i = new Intent(DashboardActivity.this, UnfixedActivity.class);</b>
+<b class="nc"><i>326</i>&nbsp;        i.putExtra(&quot;fromDash&quot;,&quot;Y&quot;);</b>
+<b class="nc"><i>327</i>&nbsp;        startActivity(i);</b>
+<i>328</i>&nbsp;    }
+<i>329</i>&nbsp;
+<i>330</i>&nbsp;    public void visulaizeFxd(View v){
+<b class="nc"><i>331</i>&nbsp;        Intent i = new Intent(DashboardActivity.this, Visualize_Fixed.class);</b>
+<b class="nc"><i>332</i>&nbsp;        startActivity(i);</b>
+<i>333</i>&nbsp;    }
+<i>334</i>&nbsp;    public void visulaizeUnFxd(View v){
+<b class="nc"><i>335</i>&nbsp;        Intent i = new Intent(DashboardActivity.this, Visualize_Unfxd.class);</b>
+<b class="nc"><i>336</i>&nbsp;        startActivity(i);</b>
+<i>337</i>&nbsp;    }
+<i>338</i>&nbsp;
+<i>339</i>&nbsp;    public void nav_income(View v){
+<b class="nc"><i>340</i>&nbsp;        Intent i = new Intent(DashboardActivity.this, IncomeActivity.class);</b>
+<b class="nc"><i>341</i>&nbsp;        i.putExtra(&quot;fromDash&quot;,&quot;Y&quot;);</b>
+<b class="nc"><i>342</i>&nbsp;        startActivity(i);</b>
+<i>343</i>&nbsp;    }
+<i>344</i>&nbsp;
+<i>345</i>&nbsp;    @Override
+<i>346</i>&nbsp;    public boolean onPrepareOptionsMenu(final Menu menu) {
+<i>347</i>&nbsp;
+<b class="nc"><i>348</i>&nbsp;        menu.clear();</b>
+<b class="nc"><i>349</i>&nbsp;        getMenuInflater().inflate(R.menu.activity_dashboardxyz, menu);</b>
+<i>350</i>&nbsp;
+<i>351</i>&nbsp;
+<i>352</i>&nbsp;
+<b class="nc"><i>353</i>&nbsp;        return super.onCreateOptionsMenu(menu);</b>
+<i>354</i>&nbsp;    }
+<i>355</i>&nbsp;
+<i>356</i>&nbsp;    @Override
+<i>357</i>&nbsp;    public boolean onOptionsItemSelected(MenuItem item) {
+<i>358</i>&nbsp;        // Handle item selection
+<i>359</i>&nbsp;        try {
+<b class="nc"><i>360</i>&nbsp;            switch (item.getItemId()) {</b>
+<i>361</i>&nbsp;                case R.id.down_pdf:
+<i>362</i>&nbsp;
+<i>363</i>&nbsp;
+<b class="nc"><i>364</i>&nbsp;                    this.createPdfWrapper(false);</b>
+<i>365</i>&nbsp;
+<b class="nc"><i>366</i>&nbsp;                    return true;</b>
+<i>367</i>&nbsp;                case R.id.email_pdf:
+<b class="nc"><i>368</i>&nbsp;                    emailpdf();</b>
+<b class="nc"><i>369</i>&nbsp;                    return true;</b>
+<i>370</i>&nbsp;                case R.id.exit_app:
+<b class="nc"><i>371</i>&nbsp;                    exitApp();</b>
+<b class="nc"><i>372</i>&nbsp;                    return true;</b>
+<i>373</i>&nbsp;                case R.id.reset_pin:
+<b class="nc"><i>374</i>&nbsp;                    resetPin();</b>
+<b class="nc"><i>375</i>&nbsp;                    return true;</b>
+<i>376</i>&nbsp;                default:
+<b class="nc"><i>377</i>&nbsp;                    return super.onOptionsItemSelected(item);</b>
+<i>378</i>&nbsp;            }
+<i>379</i>&nbsp;
+<b class="nc"><i>380</i>&nbsp;        } catch (FileNotFoundException e) {</b>
+<b class="nc"><i>381</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>382</i>&nbsp;        } catch (DocumentException e) {</b>
+<b class="nc"><i>383</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>384</i>&nbsp;        }</b>
+<b class="nc"><i>385</i>&nbsp;        return true;</b>
+<i>386</i>&nbsp;    }
+<i>387</i>&nbsp;
+<i>388</i>&nbsp;    public void resetPin(){
+<b class="nc"><i>389</i>&nbsp;        Intent i = new Intent(DashboardActivity.this, ResetActivity.class);</b>
+<b class="nc"><i>390</i>&nbsp;        startActivity(i);</b>
+<i>391</i>&nbsp;    }
+<i>392</i>&nbsp;
+<i>393</i>&nbsp;    public void exitApp(){
+<b class="nc"><i>394</i>&nbsp;        if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.JELLY_BEAN) {</b>
+<b class="nc"><i>395</i>&nbsp;            finishAffinity();</b>
+<i>396</i>&nbsp;        }
+<i>397</i>&nbsp;
+<b class="nc"><i>398</i>&nbsp;        else if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) {</b>
+<b class="nc"><i>399</i>&nbsp;            finishAndRemoveTask();</b>
+<b class="nc"><i>400</i>&nbsp;            System.exit(0);</b>
+<i>401</i>&nbsp;        }
+<i>402</i>&nbsp;        else{
+<b class="nc"><i>403</i>&nbsp;            finish();</b>
+<i>404</i>&nbsp;            }
+<i>405</i>&nbsp;    }
+<i>406</i>&nbsp;
+<i>407</i>&nbsp;    public void emailpdf (){
+<b class="nc"><i>408</i>&nbsp;        File docsFolder = new File(Environment.getExternalStorageDirectory() + &quot;/Documents/budgetbook&quot;);</b>
+<b class="nc"><i>409</i>&nbsp;        pdfFile = new File(docsFolder.getAbsolutePath(),&quot;budget.pdf&quot;);</b>
+<b class="nc"><i>410</i>&nbsp;        if(pdfFile==null){</b>
+<i>411</i>&nbsp;            try {
+<b class="nc"><i>412</i>&nbsp;                createPdfWrapper(true);</b>
+<b class="nc"><i>413</i>&nbsp;            } catch (FileNotFoundException e) {</b>
+<b class="nc"><i>414</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>415</i>&nbsp;            } catch (DocumentException e) {</b>
+<b class="nc"><i>416</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>417</i>&nbsp;            }</b>
+<i>418</i>&nbsp;        }
+<i>419</i>&nbsp;        else{
+<b class="nc"><i>420</i>&nbsp;            Intent shareIntent = new Intent(Intent.ACTION_SEND);</b>
+<b class="nc"><i>421</i>&nbsp;            shareIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { &quot;&quot; });</b>
+<b class="nc"><i>422</i>&nbsp;            shareIntent.putExtra(Intent.EXTRA_SUBJECT, &quot;test &quot; + &quot;check&quot;);</b>
+<b class="nc"><i>423</i>&nbsp;            shareIntent.putExtra(Intent.EXTRA_TEXT, &quot;test&quot;);</b>
+<b class="nc"><i>424</i>&nbsp;            Uri uri= FileProvider.getUriForFile(mContext, mContext.getApplicationContext().getPackageName() + &quot;.FilterActivity&quot;, pdfFile);</b>
+<i>425</i>&nbsp;            ///Uri uri = Uri.fromFile(pdfFile);
+<i>426</i>&nbsp;            //String uri = Environment.getExternalStorageDirectory() + &quot;/Documents/budgetbook/budgetbook.pdf&quot;;
+<b class="nc"><i>427</i>&nbsp;            shareIntent.setType(&quot;application/pdf&quot;);</b>
+<b class="nc"><i>428</i>&nbsp;            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(uri.toString()));</b>
+<b class="nc"><i>429</i>&nbsp;            startActivity(shareIntent);</b>
+<i>430</i>&nbsp;
+<i>431</i>&nbsp;        }
+<i>432</i>&nbsp;
+<i>433</i>&nbsp;    }
+<i>434</i>&nbsp;
+<i>435</i>&nbsp;
+<i>436</i>&nbsp;    public void createPdfWrapper(boolean isEmail) throws FileNotFoundException,DocumentException{
+<i>437</i>&nbsp;
+<b class="nc"><i>438</i>&nbsp;        int hasWriteStoragePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);</b>
+<b class="nc"><i>439</i>&nbsp;        if (hasWriteStoragePermission != PackageManager.PERMISSION_GRANTED) {</b>
+<i>440</i>&nbsp;
+<b class="nc"><i>441</i>&nbsp;            if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M) {</b>
+<b class="nc"><i>442</i>&nbsp;                if (!shouldShowRequestPermissionRationale(Manifest.permission.WRITE_CONTACTS)) {</b>
+<b class="nc"><i>443</i>&nbsp;                    showMessageOKCancel(&quot;You need to allow access to Storage&quot;,</b>
+<b class="nc"><i>444</i>&nbsp;                            new DialogInterface.OnClickListener() {</b>
+<i>445</i>&nbsp;                                @Override
+<i>446</i>&nbsp;                                public void onClick(DialogInterface dialog, int which) {
+<b class="nc"><i>447</i>&nbsp;                                    if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M) {</b>
+<b class="nc"><i>448</i>&nbsp;                                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},</b>
+<i>449</i>&nbsp;                                                REQUEST_CODE_ASK_PERMISSIONS);
+<i>450</i>&nbsp;                                    }
+<i>451</i>&nbsp;                                }
+<i>452</i>&nbsp;                            });
+<i>453</i>&nbsp;                    return;
+<i>454</i>&nbsp;                }
+<i>455</i>&nbsp;
+<b class="nc"><i>456</i>&nbsp;                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},</b>
+<i>457</i>&nbsp;                        REQUEST_CODE_ASK_PERMISSIONS);
+<i>458</i>&nbsp;            }
+<i>459</i>&nbsp;            return;
+<i>460</i>&nbsp;        }else {
+<b class="nc"><i>461</i>&nbsp;            createPdf(isEmail);</b>
+<i>462</i>&nbsp;        }
+<i>463</i>&nbsp;    }
+<i>464</i>&nbsp;    @Override
+<i>465</i>&nbsp;    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+<b class="nc"><i>466</i>&nbsp;        switch (requestCode) {</b>
+<i>467</i>&nbsp;            case REQUEST_CODE_ASK_PERMISSIONS:
+<b class="nc"><i>468</i>&nbsp;                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {</b>
+<i>469</i>&nbsp;                    // Permission Granted
+<i>470</i>&nbsp;                    try {
+<b class="nc"><i>471</i>&nbsp;                        createPdfWrapper(false);</b>
+<b class="nc"><i>472</i>&nbsp;                    } catch (FileNotFoundException e) {</b>
+<b class="nc"><i>473</i>&nbsp;                        e.printStackTrace();</b>
+<b class="nc"><i>474</i>&nbsp;                    } catch (DocumentException e) {</b>
+<b class="nc"><i>475</i>&nbsp;                        e.printStackTrace();</b>
+<b class="nc"><i>476</i>&nbsp;                    }</b>
+<i>477</i>&nbsp;                } else {
+<i>478</i>&nbsp;                    // Permission Denied
+<b class="nc"><i>479</i>&nbsp;                    Toast.makeText(this, &quot;WRITE_EXTERNAL Permission Denied&quot;, Toast.LENGTH_SHORT)</b>
+<b class="nc"><i>480</i>&nbsp;                            .show();</b>
+<i>481</i>&nbsp;                }
+<b class="nc"><i>482</i>&nbsp;                break;</b>
+<i>483</i>&nbsp;            default:
+<b class="nc"><i>484</i>&nbsp;                super.onRequestPermissionsResult(requestCode, permissions, grantResults);</b>
+<i>485</i>&nbsp;        }
+<i>486</i>&nbsp;    }
+<i>487</i>&nbsp;    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+<b class="nc"><i>488</i>&nbsp;        new AlertDialog.Builder(this)</b>
+<b class="nc"><i>489</i>&nbsp;                .setMessage(message)</b>
+<b class="nc"><i>490</i>&nbsp;                .setPositiveButton(&quot;OK&quot;, okListener)</b>
+<b class="nc"><i>491</i>&nbsp;                .setNegativeButton(&quot;Cancel&quot;, null)</b>
+<b class="nc"><i>492</i>&nbsp;                .create()</b>
+<b class="nc"><i>493</i>&nbsp;                .show();</b>
+<i>494</i>&nbsp;    }
+<i>495</i>&nbsp;
+<i>496</i>&nbsp;    private void createPdf(boolean isEmail) throws FileNotFoundException, DocumentException {
+<i>497</i>&nbsp;
+<i>498</i>&nbsp;
+<i>499</i>&nbsp;
+<b class="nc"><i>500</i>&nbsp;        File docsFolder = new File(Environment.getExternalStorageDirectory() + &quot;/Documents/budgetbook&quot;);</b>
+<i>501</i>&nbsp;
+<i>502</i>&nbsp;        try {
+<b class="nc"><i>503</i>&nbsp;            if (!docsFolder.exists()) {</b>
+<b class="nc"><i>504</i>&nbsp;                docsFolder.mkdir();</b>
+<b class="nc"><i>505</i>&nbsp;                Log.i(TAG, &quot;Created a new directory for PDF&quot;);</b>
+<i>506</i>&nbsp;            }
+<i>507</i>&nbsp;
+<b class="nc"><i>508</i>&nbsp;            pdfFile = new File(docsFolder.getAbsolutePath(),&quot;budget.pdf&quot;);</b>
+<b class="nc"><i>509</i>&nbsp;            OutputStream output = new FileOutputStream(pdfFile);</b>
+<b class="nc"><i>510</i>&nbsp;            if(!isEmail) {</b>
+<b class="nc"><i>511</i>&nbsp;                Document document = new Document();</b>
+<b class="nc"><i>512</i>&nbsp;                PdfWriter.getInstance(document, output);</b>
+<b class="nc"><i>513</i>&nbsp;                document.open();</b>
+<i>514</i>&nbsp;                //String imageFile = &quot;../res/drawable/budgetbook.png&quot;;
+<i>515</i>&nbsp;
+<i>516</i>&nbsp;                //  Image image = Image.getInstance(imageFile);
+<i>517</i>&nbsp;
+<i>518</i>&nbsp;                // document.add(image);
+<i>519</i>&nbsp;
+<b class="nc"><i>520</i>&nbsp;                FontSelector selector = new FontSelector();</b>
+<b class="nc"><i>521</i>&nbsp;                Font f2 = FontFactory.getFont(FontFactory.TIMES_ROMAN, 20);</b>
+<b class="nc"><i>522</i>&nbsp;                f2.setColor(BaseColor.BLACK);</b>
+<b class="nc"><i>523</i>&nbsp;                selector.addFont(f2);</b>
+<i>524</i>&nbsp;//            Image image = Image.getInstance(&quot;./java/budgetbook.png&quot;);
+<i>525</i>&nbsp;//            PdfGState gs1 = new PdfGState();
+<i>526</i>&nbsp;//            gs1.setFillOpacity(0.5f);
+<i>527</i>&nbsp;//           document.add(image);
+<i>528</i>&nbsp;                // transparency
+<b class="nc"><i>529</i>&nbsp;                Phrase ph = selector.process(&quot;Budget Book&quot;);</b>
+<b class="nc"><i>530</i>&nbsp;                Phrase phq = selector.process(&quot;Summary of Income, Fixed &amp; Unfixed expenditure&quot;);</b>
+<b class="nc"><i>531</i>&nbsp;                Paragraph p1 = new Paragraph(ph);</b>
+<b class="nc"><i>532</i>&nbsp;                p1.setAlignment(Element.ALIGN_CENTER);</b>
+<b class="nc"><i>533</i>&nbsp;                Paragraph p2 = new Paragraph(phq);</b>
+<b class="nc"><i>534</i>&nbsp;                p1.setAlignment(Element.ALIGN_CENTER);</b>
+<b class="nc"><i>535</i>&nbsp;                document.add(p1);</b>
+<b class="nc"><i>536</i>&nbsp;                document.add(new Paragraph(&quot;\n&quot;));</b>
+<b class="nc"><i>537</i>&nbsp;                document.add(p2);</b>
+<b class="nc"><i>538</i>&nbsp;                document.add(new Paragraph(&quot;\n&quot;));</b>
+<b class="nc"><i>539</i>&nbsp;                document.add(createPdfTable1());</b>
+<b class="nc"><i>540</i>&nbsp;                document.add(new Paragraph(&quot;\n&quot;));</b>
+<b class="nc"><i>541</i>&nbsp;                document.add(createPdfTable2());</b>
+<b class="nc"><i>542</i>&nbsp;                document.add(new Paragraph(&quot;\n&quot;));</b>
+<b class="nc"><i>543</i>&nbsp;                document.add(createPdfTable3());</b>
+<b class="nc"><i>544</i>&nbsp;                document.close();</b>
+<b class="nc"><i>545</i>&nbsp;                previewPdf();</b>
+<b class="nc"><i>546</i>&nbsp;            }</b>
+<i>547</i>&nbsp;            else{
+<b class="nc"><i>548</i>&nbsp;                emailpdf();</b>
+<i>549</i>&nbsp;            }
+<b class="nc"><i>550</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>551</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>552</i>&nbsp;        }</b>
+<i>553</i>&nbsp;
+<i>554</i>&nbsp;    }
+<i>555</i>&nbsp;
+<i>556</i>&nbsp;    private void previewPdf() {
+<i>557</i>&nbsp;
+<b class="nc"><i>558</i>&nbsp;        PackageManager packageManager = getPackageManager();</b>
+<b class="nc"><i>559</i>&nbsp;        Intent testIntent = new Intent(Intent.ACTION_VIEW);</b>
+<b class="nc"><i>560</i>&nbsp;        testIntent.setType(&quot;application/pdf&quot;);</b>
+<b class="nc"><i>561</i>&nbsp;        List list = packageManager.queryIntentActivities(testIntent, PackageManager.MATCH_DEFAULT_ONLY);</b>
+<b class="nc"><i>562</i>&nbsp;        if (list.size() &gt; 0) {</b>
+<b class="nc"><i>563</i>&nbsp;            Intent intent = new Intent();</b>
+<b class="nc"><i>564</i>&nbsp;            intent.setAction(Intent.ACTION_VIEW);</b>
+<b class="nc"><i>565</i>&nbsp;            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);</b>
+<i>566</i>&nbsp;
+<b class="nc"><i>567</i>&nbsp;            Uri uri= FileProvider.getUriForFile(mContext, mContext.getApplicationContext().getPackageName() + &quot;.FilterActivity&quot;, pdfFile);</b>
+<i>568</i>&nbsp;            ///Uri uri = Uri.fromFile(pdfFile);
+<b class="nc"><i>569</i>&nbsp;            intent.setDataAndType(uri, &quot;application/pdf&quot;);</b>
+<i>570</i>&nbsp;
+<b class="nc"><i>571</i>&nbsp;            startActivity(intent);</b>
+<b class="nc"><i>572</i>&nbsp;        }else{</b>
+<b class="nc"><i>573</i>&nbsp;            Toast.makeText(this,&quot;Download a PDF Viewer to see the generated PDF&quot;,Toast.LENGTH_SHORT).show();</b>
+<i>574</i>&nbsp;        }
+<i>575</i>&nbsp;    }
+<i>576</i>&nbsp;
+<i>577</i>&nbsp;    public PdfPTable createPdfTable2(){
+<i>578</i>&nbsp;
+<b class="nc"><i>579</i>&nbsp;        PdfPTable table = new PdfPTable(6);</b>
+<i>580</i>&nbsp;        PdfPCell cell;
+<i>581</i>&nbsp;        try{
+<b class="nc"><i>582</i>&nbsp;            FixedCompDaoHandler dao = new DataBaseHandlerImpl(mContext);</b>
+<b class="nc"><i>583</i>&nbsp;            Calendar cal = Calendar.getInstance();</b>
+<b class="nc"><i>584</i>&nbsp;            int month = cal.get(Calendar.MONTH);</b>
+<b class="nc"><i>585</i>&nbsp;            int year = cal.get(Calendar.YEAR);</b>
+<b class="nc"><i>586</i>&nbsp;            String start_date = &quot;01-&quot; + (month &lt; 10 ? &quot;0&quot; + (month + 1) : (month + 1)) + &quot;-&quot; + year;</b>
+<b class="nc"><i>587</i>&nbsp;            Date today = new Date();</b>
+<i>588</i>&nbsp;
+<b class="nc"><i>589</i>&nbsp;            Calendar calendar = Calendar.getInstance();</b>
+<b class="nc"><i>590</i>&nbsp;            calendar.setTime(today);</b>
+<i>591</i>&nbsp;
+<b class="nc"><i>592</i>&nbsp;            calendar.add(Calendar.MONTH, 1);</b>
+<b class="nc"><i>593</i>&nbsp;            calendar.set(Calendar.DAY_OF_MONTH, 1);</b>
+<b class="nc"><i>594</i>&nbsp;            calendar.add(Calendar.DATE, -1);</b>
+<b class="nc"><i>595</i>&nbsp;            Date lastDayOfMonth = calendar.getTime();</b>
+<b class="nc"><i>596</i>&nbsp;            DateFormat sdf = new SimpleDateFormat(&quot;dd-MM-yyyy&quot;);</b>
+<b class="nc"><i>597</i>&nbsp;            String end_date = sdf.format(lastDayOfMonth);</b>
+<b class="nc"><i>598</i>&nbsp;            FilterVO vo = new FilterVO();</b>
+<b class="nc"><i>599</i>&nbsp;            vo.setFrom(start_date);</b>
+<b class="nc"><i>600</i>&nbsp;            vo.setTo(end_date);</b>
+<b class="nc"><i>601</i>&nbsp;            ArrayList&lt;FixedVO&gt; fxdData = ((DataBaseHandlerImpl) dao).getFxdTableFilterData(vo);</b>
+<b class="nc"><i>602</i>&nbsp;            FontSelector selector = new FontSelector();</b>
+<b class="nc"><i>603</i>&nbsp;            Font f2 = FontFactory.getFont(FontFactory.TIMES_ROMAN, 16);</b>
+<b class="nc"><i>604</i>&nbsp;            f2.setColor(BaseColor.BLACK);</b>
+<b class="nc"><i>605</i>&nbsp;            selector.addFont(f2);</b>
+<b class="nc"><i>606</i>&nbsp;            Phrase ph = selector.process(&quot;Fixed Expenditure Summary : &quot;+start_date+&quot; - &quot;+ end_date);</b>
+<b class="nc"><i>607</i>&nbsp;            cell = new PdfPCell(new Phrase(ph));</b>
+<b class="nc"><i>608</i>&nbsp;            cell.setBackgroundColor(BaseColor.GRAY);</b>
+<b class="nc"><i>609</i>&nbsp;            cell.setColspan(6);</b>
+<b class="nc"><i>610</i>&nbsp;            table.setWidthPercentage(100);</b>
+<b class="nc"><i>611</i>&nbsp;            table.setTotalWidth(new float[]{ 25, 80,80,72,72,80 });</b>
+<b class="nc"><i>612</i>&nbsp;            table.addCell(cell);</b>
+<i>613</i>&nbsp;
+<b class="nc"><i>614</i>&nbsp;            table.addCell(&quot;S.NO&quot;);</b>
+<b class="nc"><i>615</i>&nbsp;            table.addCell(&quot;COMPONENT&quot;);</b>
+<b class="nc"><i>616</i>&nbsp;            table.addCell(&quot;EXPENDITURE&quot;);</b>
+<b class="nc"><i>617</i>&nbsp;            table.addCell(&quot;PAYMENT DATE&quot;);</b>
+<b class="nc"><i>618</i>&nbsp;            table.addCell(&quot;PAY MODE&quot;);</b>
+<b class="nc"><i>619</i>&nbsp;            table.addCell(&quot;FREQUENCY&quot;);</b>
+<b class="nc"><i>620</i>&nbsp;            int counter=0;</b>
+<b class="nc"><i>621</i>&nbsp;            for(FixedVO data : fxdData){</b>
+<b class="nc"><i>622</i>&nbsp;                counter++;</b>
+<b class="nc"><i>623</i>&nbsp;                table.addCell(&quot;&quot;+counter);</b>
+<b class="nc"><i>624</i>&nbsp;                table.addCell(data.getComponent());</b>
+<b class="nc"><i>625</i>&nbsp;                table.addCell(Float.toString(data.getFxd_amt()));</b>
+<b class="nc"><i>626</i>&nbsp;                table.addCell(data.getPayDate());</b>
+<b class="nc"><i>627</i>&nbsp;                table.addCell(data.getPayMode());</b>
+<b class="nc"><i>628</i>&nbsp;                table.addCell(data.getFreq());</b>
+<b class="nc"><i>629</i>&nbsp;            }</b>
+<b class="nc"><i>630</i>&nbsp;            table.addCell(&quot;&quot;);</b>
+<b class="nc"><i>631</i>&nbsp;            table.addCell(&quot;&quot;);</b>
+<b class="nc"><i>632</i>&nbsp;            table.addCell(&quot;Total : &quot;+Float.toString(utility.getTotal(fxdData,&quot;FXD&quot;)));</b>
+<b class="nc"><i>633</i>&nbsp;            table.addCell(&quot;&quot;);</b>
+<b class="nc"><i>634</i>&nbsp;            table.addCell(&quot;&quot;);</b>
+<b class="nc"><i>635</i>&nbsp;            table.addCell(&quot;&quot;);</b>
+<i>636</i>&nbsp;
+<b class="nc"><i>637</i>&nbsp;        }catch (Exception e){</b>
+<b class="nc"><i>638</i>&nbsp;            Log.e(TAG,e.toString());</b>
+<b class="nc"><i>639</i>&nbsp;        }</b>
+<i>640</i>&nbsp;
+<b class="nc"><i>641</i>&nbsp;        return table;</b>
+<i>642</i>&nbsp;    }
+<i>643</i>&nbsp;
+<i>644</i>&nbsp;    public PdfPTable createPdfTable1(){
+<i>645</i>&nbsp;
+<b class="nc"><i>646</i>&nbsp;        PdfPTable table = new PdfPTable(3);</b>
+<i>647</i>&nbsp;        PdfPCell cell;
+<i>648</i>&nbsp;        try{
+<b class="nc"><i>649</i>&nbsp;            FixedCompDaoHandler dao = new DataBaseHandlerImpl(mContext);</b>
+<b class="nc"><i>650</i>&nbsp;            Calendar cal = Calendar.getInstance();</b>
+<b class="nc"><i>651</i>&nbsp;            int month = cal.get(Calendar.MONTH);</b>
+<b class="nc"><i>652</i>&nbsp;            int year = cal.get(Calendar.YEAR);</b>
+<b class="nc"><i>653</i>&nbsp;            String start_date = &quot;01-&quot; + (month &lt; 10 ? &quot;0&quot; + (month + 1) : (month + 1)) + &quot;-&quot; + year;</b>
+<b class="nc"><i>654</i>&nbsp;            Date today = new Date();</b>
+<i>655</i>&nbsp;
+<b class="nc"><i>656</i>&nbsp;            Calendar calendar = Calendar.getInstance();</b>
+<b class="nc"><i>657</i>&nbsp;            calendar.setTime(today);</b>
+<i>658</i>&nbsp;
+<b class="nc"><i>659</i>&nbsp;            calendar.add(Calendar.MONTH, 1);</b>
+<b class="nc"><i>660</i>&nbsp;            calendar.set(Calendar.DAY_OF_MONTH, 1);</b>
+<b class="nc"><i>661</i>&nbsp;            calendar.add(Calendar.DATE, -1);</b>
+<b class="nc"><i>662</i>&nbsp;            Date lastDayOfMonth = calendar.getTime();</b>
+<b class="nc"><i>663</i>&nbsp;            DateFormat sdf = new SimpleDateFormat(&quot;dd-MM-yyyy&quot;);</b>
+<b class="nc"><i>664</i>&nbsp;            String end_date = sdf.format(lastDayOfMonth);</b>
+<b class="nc"><i>665</i>&nbsp;            ArrayList&lt;FixedVO&gt; income = ((DataBaseHandlerImpl) dao).getIncomeFilter(mContext,start_date,end_date);</b>
+<b class="nc"><i>666</i>&nbsp;            FontSelector selector = new FontSelector();</b>
+<b class="nc"><i>667</i>&nbsp;            Font f2 = FontFactory.getFont(FontFactory.TIMES_ROMAN, 16);</b>
+<b class="nc"><i>668</i>&nbsp;            f2.setColor(BaseColor.BLACK);</b>
+<b class="nc"><i>669</i>&nbsp;            selector.addFont(f2);</b>
+<b class="nc"><i>670</i>&nbsp;            Phrase ph = selector.process(&quot;Income Summary : &quot;+start_date+&quot; - &quot;+ end_date);</b>
+<b class="nc"><i>671</i>&nbsp;            cell = new PdfPCell(new Phrase(ph));</b>
+<b class="nc"><i>672</i>&nbsp;            cell.setBackgroundColor(BaseColor.GRAY);</b>
+<b class="nc"><i>673</i>&nbsp;            cell.setColspan(3);</b>
+<b class="nc"><i>674</i>&nbsp;            table.setWidthPercentage(100);</b>
+<b class="nc"><i>675</i>&nbsp;            table.setTotalWidth(new float[]{ 30, 80,80 });</b>
+<b class="nc"><i>676</i>&nbsp;            cell.setColspan(3);</b>
+<b class="nc"><i>677</i>&nbsp;            table.addCell(cell);</b>
+<i>678</i>&nbsp;
+<b class="nc"><i>679</i>&nbsp;            table.addCell(&quot;S.NO&quot;);</b>
+<b class="nc"><i>680</i>&nbsp;            table.addCell(&quot;INCOME&quot;);</b>
+<b class="nc"><i>681</i>&nbsp;            table.addCell(&quot;DATE&quot;);</b>
+<b class="nc"><i>682</i>&nbsp;            int counter=0;</b>
+<b class="nc"><i>683</i>&nbsp;            for(FixedVO data : income){</b>
+<b class="nc"><i>684</i>&nbsp;                counter++;</b>
+<b class="nc"><i>685</i>&nbsp;                table.addCell(&quot;&quot;+counter);</b>
+<b class="nc"><i>686</i>&nbsp;                table.addCell(Float.toString(data.getIncome()));</b>
+<b class="nc"><i>687</i>&nbsp;                table.addCell(data.getiDate());</b>
+<b class="nc"><i>688</i>&nbsp;            }</b>
+<i>689</i>&nbsp;
+<b class="nc"><i>690</i>&nbsp;            table.addCell(&quot;&quot;);</b>
+<b class="nc"><i>691</i>&nbsp;            table.addCell(&quot;Total : &quot;+Float.toString(utility.getTotal(income,&quot;INC&quot;)));</b>
+<b class="nc"><i>692</i>&nbsp;            table.addCell(&quot;&quot;);</b>
+<i>693</i>&nbsp;
+<b class="nc"><i>694</i>&nbsp;        }catch (Exception e){</b>
+<b class="nc"><i>695</i>&nbsp;            Log.e(TAG,e.toString());</b>
+<b class="nc"><i>696</i>&nbsp;        }</b>
+<i>697</i>&nbsp;
+<i>698</i>&nbsp;
+<b class="nc"><i>699</i>&nbsp;        return table;</b>
+<i>700</i>&nbsp;    }
+<i>701</i>&nbsp;    public PdfPTable createPdfTable3(){
+<i>702</i>&nbsp;
+<b class="nc"><i>703</i>&nbsp;        PdfPTable table = new PdfPTable(6);</b>
+<i>704</i>&nbsp;        PdfPCell cell;
+<i>705</i>&nbsp;        try{
+<b class="nc"><i>706</i>&nbsp;            UnFxdDao dao = new UnFxdDaoImpl(mContext);</b>
+<b class="nc"><i>707</i>&nbsp;            Calendar cal = Calendar.getInstance();</b>
+<b class="nc"><i>708</i>&nbsp;            int month = cal.get(Calendar.MONTH);</b>
+<b class="nc"><i>709</i>&nbsp;            int year = cal.get(Calendar.YEAR);</b>
+<b class="nc"><i>710</i>&nbsp;            String start_date = &quot;01-&quot; + (month &lt; 10 ? &quot;0&quot; + (month + 1) : (month + 1)) + &quot;-&quot; + year;</b>
+<b class="nc"><i>711</i>&nbsp;            Date today = new Date();</b>
+<i>712</i>&nbsp;
+<b class="nc"><i>713</i>&nbsp;            Calendar calendar = Calendar.getInstance();</b>
+<b class="nc"><i>714</i>&nbsp;            calendar.setTime(today);</b>
+<i>715</i>&nbsp;
+<b class="nc"><i>716</i>&nbsp;            calendar.add(Calendar.MONTH, 1);</b>
+<b class="nc"><i>717</i>&nbsp;            calendar.set(Calendar.DAY_OF_MONTH, 1);</b>
+<b class="nc"><i>718</i>&nbsp;            calendar.add(Calendar.DATE, -1);</b>
+<b class="nc"><i>719</i>&nbsp;            Date lastDayOfMonth = calendar.getTime();</b>
+<b class="nc"><i>720</i>&nbsp;            DateFormat sdf = new SimpleDateFormat(&quot;dd-MM-yyyy&quot;);</b>
+<b class="nc"><i>721</i>&nbsp;            String end_date = sdf.format(lastDayOfMonth);</b>
+<b class="nc"><i>722</i>&nbsp;            FilterVO vo = new FilterVO();</b>
+<b class="nc"><i>723</i>&nbsp;            vo.setFrom(start_date);</b>
+<b class="nc"><i>724</i>&nbsp;            vo.setTo(end_date);</b>
+<b class="nc"><i>725</i>&nbsp;            ArrayList&lt;FixedVO&gt; unfxdData = ((UnFxdDaoImpl) dao).getUnFxdTableFilterData(vo);</b>
+<b class="nc"><i>726</i>&nbsp;            FontSelector selector = new FontSelector();</b>
+<b class="nc"><i>727</i>&nbsp;            Font f2 = FontFactory.getFont(FontFactory.TIMES_ROMAN, 16);</b>
+<b class="nc"><i>728</i>&nbsp;            f2.setColor(BaseColor.BLACK);</b>
+<b class="nc"><i>729</i>&nbsp;            selector.addFont(f2);</b>
+<b class="nc"><i>730</i>&nbsp;            Phrase ph = selector.process(&quot;Un Fixed Expenditure Summary : &quot;+start_date+&quot; - &quot;+ end_date);</b>
+<b class="nc"><i>731</i>&nbsp;            cell = new PdfPCell(new Phrase(ph));</b>
+<b class="nc"><i>732</i>&nbsp;            cell.setBackgroundColor(BaseColor.GRAY);</b>
+<b class="nc"><i>733</i>&nbsp;            cell.setColspan(6);</b>
+<b class="nc"><i>734</i>&nbsp;            table.setWidthPercentage(100);</b>
+<b class="nc"><i>735</i>&nbsp;            table.setTotalWidth(new float[]{ 25, 80,80,72,72,80 });</b>
+<i>736</i>&nbsp;
+<b class="nc"><i>737</i>&nbsp;            cell.setColspan(6);</b>
+<b class="nc"><i>738</i>&nbsp;            table.addCell(cell);</b>
+<i>739</i>&nbsp;
+<b class="nc"><i>740</i>&nbsp;            table.addCell(&quot;S.NO&quot;);</b>
+<b class="nc"><i>741</i>&nbsp;            table.addCell(&quot;COMPONENT&quot;);</b>
+<b class="nc"><i>742</i>&nbsp;            table.addCell(&quot;EXPENDITURE&quot;);</b>
+<b class="nc"><i>743</i>&nbsp;            table.addCell(&quot;PAYMENT DATE&quot;);</b>
+<b class="nc"><i>744</i>&nbsp;            table.addCell(&quot;PAY MODE&quot;);</b>
+<b class="nc"><i>745</i>&nbsp;            table.addCell(&quot;COMMENT&quot;);</b>
+<b class="nc"><i>746</i>&nbsp;            int counter=0;</b>
+<b class="nc"><i>747</i>&nbsp;            for(FixedVO data : unfxdData){</b>
+<b class="nc"><i>748</i>&nbsp;                counter++;</b>
+<b class="nc"><i>749</i>&nbsp;                table.addCell(&quot;&quot;+counter);</b>
+<b class="nc"><i>750</i>&nbsp;                table.addCell(data.getComponent());</b>
+<b class="nc"><i>751</i>&nbsp;                table.addCell(Float.toString(data.getUnfxd_amt()));</b>
+<b class="nc"><i>752</i>&nbsp;                table.addCell(data.getPayDate());</b>
+<b class="nc"><i>753</i>&nbsp;                table.addCell(data.getPayMode());</b>
+<b class="nc"><i>754</i>&nbsp;                table.addCell(data.getComment());</b>
+<b class="nc"><i>755</i>&nbsp;            }</b>
+<b class="nc"><i>756</i>&nbsp;            table.addCell(&quot;&quot;);</b>
+<b class="nc"><i>757</i>&nbsp;            table.addCell(&quot;&quot;);</b>
+<b class="nc"><i>758</i>&nbsp;            table.addCell(&quot;Total : &quot;+Float.toString(utility.getTotal(unfxdData,&quot;UNFXD&quot;)));</b>
+<b class="nc"><i>759</i>&nbsp;            table.addCell(&quot;&quot;);</b>
+<b class="nc"><i>760</i>&nbsp;            table.addCell(&quot;&quot;);</b>
+<b class="nc"><i>761</i>&nbsp;            table.addCell(&quot;&quot;);</b>
+<i>762</i>&nbsp;
+<b class="nc"><i>763</i>&nbsp;        }catch (Exception e){</b>
+<b class="nc"><i>764</i>&nbsp;            Log.e(TAG,e.toString());</b>
+<b class="nc"><i>765</i>&nbsp;        }</b>
+<i>766</i>&nbsp;
+<b class="nc"><i>767</i>&nbsp;        return table;</b>
+<i>768</i>&nbsp;    }
+<i>769</i>&nbsp;
+<i>770</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-06-24 18:02</div>
+</div>
+</body>
+</html>

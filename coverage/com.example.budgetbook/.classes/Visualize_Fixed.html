@@ -1,0 +1,334 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Visualize_Fixed</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.budgetbook</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Visualize_Fixed (com.example.budgetbook)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Visualize_Fixed</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 118)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Visualize_Fixed$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 13)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 131)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.budgetbook;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import android.content.Context;
+<i>4</i>&nbsp;import android.content.Intent;
+<i>5</i>&nbsp;import android.graphics.Color;
+<i>6</i>&nbsp;import android.support.v7.app.AppCompatActivity;
+<i>7</i>&nbsp;import android.os.Bundle;
+<i>8</i>&nbsp;import android.util.Log;
+<i>9</i>&nbsp;import android.view.Gravity;
+<i>10</i>&nbsp;import android.view.View;
+<i>11</i>&nbsp;import android.widget.Toast;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;import com.example.budgetbook.dao.DataBaseHandlerImpl;
+<i>14</i>&nbsp;import com.example.budgetbook.dao.FixedCompDaoHandler;
+<i>15</i>&nbsp;import com.example.budgetbook.model.FilterVO;
+<i>16</i>&nbsp;import com.example.budgetbook.model.FixedVO;
+<i>17</i>&nbsp;import com.github.mikephil.charting.charts.PieChart;
+<i>18</i>&nbsp;import com.github.mikephil.charting.components.Legend;
+<i>19</i>&nbsp;import com.github.mikephil.charting.data.Entry;
+<i>20</i>&nbsp;import com.github.mikephil.charting.data.PieData;
+<i>21</i>&nbsp;import com.github.mikephil.charting.data.PieDataSet;
+<i>22</i>&nbsp;import com.github.mikephil.charting.data.PieEntry;
+<i>23</i>&nbsp;import com.github.mikephil.charting.highlight.Highlight;
+<i>24</i>&nbsp;import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+<i>25</i>&nbsp;import com.github.mikephil.charting.utils.ColorTemplate;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;import java.io.Serializable;
+<i>28</i>&nbsp;import java.text.DateFormat;
+<i>29</i>&nbsp;import java.text.SimpleDateFormat;
+<i>30</i>&nbsp;import java.util.ArrayList;
+<i>31</i>&nbsp;import java.util.Arrays;
+<i>32</i>&nbsp;import java.util.Calendar;
+<i>33</i>&nbsp;import java.util.Date;
+<i>34</i>&nbsp;import java.util.List;
+<i>35</i>&nbsp;
+<b class="nc"><i>36</i>&nbsp;public class Visualize_Fixed extends AppCompatActivity implements Serializable {</b>
+<i>37</i>&nbsp;        public static final String TAG=&quot;Visualize_Fixed&quot;;
+<i>38</i>&nbsp;        PieChart fixedChart;
+<i>39</i>&nbsp;        ArrayList&lt;FixedVO&gt; fixedList;
+<i>40</i>&nbsp;        List&lt;FixedVO&gt; incList;
+<i>41</i>&nbsp;        private Context mContext;
+<i>42</i>&nbsp;        private String to_date;
+<i>43</i>&nbsp;        private String from_date;
+<b class="nc"><i>44</i>&nbsp;        ArrayList&lt;FixedVO&gt; sortedList = new ArrayList&lt;&gt;();</b>
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    @Override
+<i>47</i>&nbsp;    protected void onCreate(Bundle savedInstanceState) {
+<b class="nc"><i>48</i>&nbsp;        super.onCreate(savedInstanceState);</b>
+<b class="nc"><i>49</i>&nbsp;        setContentView(R.layout.activity_visualize__fixed);</b>
+<b class="nc"><i>50</i>&nbsp;        fixedChart = findViewById(R.id.fixed_chart);</b>
+<i>51</i>&nbsp;        //fixedChart.setContentDescription(&quot;Fixed Expenditure&quot;);
+<b class="nc"><i>52</i>&nbsp;        fixedChart.setRotationEnabled(true);</b>
+<b class="nc"><i>53</i>&nbsp;        fixedChart.setHoleRadius(25f);</b>
+<b class="nc"><i>54</i>&nbsp;        fixedChart.setCenterText(&quot;Fixed Expenditure&quot;);</b>
+<b class="nc"><i>55</i>&nbsp;        fixedChart.setTransparentCircleAlpha(0);</b>
+<b class="nc"><i>56</i>&nbsp;        fixedChart.setDrawEntryLabels(true);</b>
+<b class="nc"><i>57</i>&nbsp;        mContext = this.getApplicationContext();</b>
+<b class="nc"><i>58</i>&nbsp;        Intent i = this.getIntent();</b>
+<i>59</i>&nbsp;
+<b class="nc"><i>60</i>&nbsp;        fixedList= (ArrayList&lt;FixedVO&gt;)i.getSerializableExtra(&quot;fxdList&quot;);</b>
+<b class="nc"><i>61</i>&nbsp;        to_date= i.getStringExtra(&quot;todate&quot;);</b>
+<b class="nc"><i>62</i>&nbsp;        from_date= i.getStringExtra(&quot;fromdate&quot;);</b>
+<b class="nc"><i>63</i>&nbsp;        addFixedSet(fixedChart, mContext,fixedList);</b>
+<i>64</i>&nbsp;
+<b class="nc"><i>65</i>&nbsp;        fixedChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {</b>
+<i>66</i>&nbsp;            @Override
+<i>67</i>&nbsp;            public void onValueSelected(Entry e, Highlight h) {
+<b class="nc"><i>68</i>&nbsp;                Log.d(TAG,&quot;e values is&quot;+e.toString());</b>
+<b class="nc"><i>69</i>&nbsp;                Log.d(TAG,&quot;h values is&quot;+h.toString());</b>
+<b class="nc"><i>70</i>&nbsp;                String comp=null;</b>
+<b class="nc"><i>71</i>&nbsp;                Float amt= null;</b>
+<b class="nc"><i>72</i>&nbsp;                for(int i=0;i&lt;sortedList.size();i++){</b>
+<b class="nc"><i>73</i>&nbsp;                    if(h.getX()==i){</b>
+<b class="nc"><i>74</i>&nbsp;                        comp=sortedList.get(i).getComponent();</b>
+<b class="nc"><i>75</i>&nbsp;                        amt= sortedList.get(i).getFxd_amt();</b>
+<b class="nc"><i>76</i>&nbsp;                        break;</b>
+<i>77</i>&nbsp;                    }
+<i>78</i>&nbsp;                }
+<i>79</i>&nbsp;
+<b class="nc"><i>80</i>&nbsp;                Toast toast =  Toast.makeText(Visualize_Fixed.this,&quot;Component : &quot;+ comp + &quot;\n&quot;+&quot;Amount : &quot;+ amt,Toast.LENGTH_LONG);</b>
+<b class="nc"><i>81</i>&nbsp;                toast.setGravity(Gravity.CENTER,0,-690);</b>
+<b class="nc"><i>82</i>&nbsp;                toast.show();</b>
+<i>83</i>&nbsp;            }
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;            @Override
+<i>86</i>&nbsp;            public void onNothingSelected() {
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;            }
+<i>89</i>&nbsp;        });
+<i>90</i>&nbsp;    }
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;    public void addFixedSet(PieChart chart, Context context,ArrayList&lt;FixedVO&gt; dataList) {
+<b class="nc"><i>93</i>&nbsp;        ArrayList&lt;PieEntry&gt; yEntrys = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>94</i>&nbsp;        ArrayList&lt;String&gt; xEntrys = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>95</i>&nbsp;        FixedCompDaoHandler dao = new DataBaseHandlerImpl(context);</b>
+<b class="nc"><i>96</i>&nbsp;        if (dataList != null &amp;&amp; !dataList.isEmpty() &amp;&amp; dataList.size() &gt; 0) {</b>
+<b class="nc"><i>97</i>&nbsp;            fixedList = dataList;</b>
+<b class="nc"><i>98</i>&nbsp;            incList = ((DataBaseHandlerImpl) dao).getIncomeFilter(context, from_date, to_date);</b>
+<i>99</i>&nbsp;        } else {
+<i>100</i>&nbsp;
+<b class="nc"><i>101</i>&nbsp;            Calendar cal = Calendar.getInstance();</b>
+<b class="nc"><i>102</i>&nbsp;            int month = cal.get(Calendar.MONTH);</b>
+<b class="nc"><i>103</i>&nbsp;            int year = cal.get(Calendar.YEAR);</b>
+<b class="nc"><i>104</i>&nbsp;            String start_date = &quot;01-&quot; + (month &lt; 10 ? &quot;0&quot; + (month + 1) : (month + 1)) + &quot;-&quot; + year;</b>
+<b class="nc"><i>105</i>&nbsp;            Date today = new Date();</b>
+<i>106</i>&nbsp;
+<b class="nc"><i>107</i>&nbsp;            Calendar calendar = Calendar.getInstance();</b>
+<b class="nc"><i>108</i>&nbsp;            calendar.setTime(today);</b>
+<i>109</i>&nbsp;
+<b class="nc"><i>110</i>&nbsp;            calendar.add(Calendar.MONTH, 1);</b>
+<b class="nc"><i>111</i>&nbsp;            calendar.set(Calendar.DAY_OF_MONTH, 1);</b>
+<b class="nc"><i>112</i>&nbsp;            calendar.add(Calendar.DATE, -1);</b>
+<b class="nc"><i>113</i>&nbsp;            Date lastDayOfMonth = calendar.getTime();</b>
+<b class="nc"><i>114</i>&nbsp;            DateFormat sdf = new SimpleDateFormat(&quot;dd-MM-yyyy&quot;);</b>
+<b class="nc"><i>115</i>&nbsp;            String end_date = sdf.format(lastDayOfMonth);</b>
+<b class="nc"><i>116</i>&nbsp;            incList = ((DataBaseHandlerImpl) dao).getIncomeFilter(context, start_date, end_date);</b>
+<b class="nc"><i>117</i>&nbsp;            FilterVO vo = new FilterVO();</b>
+<b class="nc"><i>118</i>&nbsp;            vo.setFrom(start_date);</b>
+<b class="nc"><i>119</i>&nbsp;            vo.setTo(end_date);</b>
+<b class="nc"><i>120</i>&nbsp;            fixedList = ((DataBaseHandlerImpl) dao).getFxdTableFilterData(vo);</b>
+<i>121</i>&nbsp;        }
+<b class="nc"><i>122</i>&nbsp;        if(fixedList!=null &amp;&amp; fixedList.size()&gt;0) {</b>
+<i>123</i>&nbsp;
+<b class="nc"><i>124</i>&nbsp;            float inc = 0f;</b>
+<b class="nc"><i>125</i>&nbsp;            for (FixedVO data : incList) {</b>
+<b class="nc"><i>126</i>&nbsp;                inc = inc + data.getIncome();</b>
+<b class="nc"><i>127</i>&nbsp;            }</b>
+<i>128</i>&nbsp;
+<b class="nc"><i>129</i>&nbsp;            float rent_amt = 0f;</b>
+<b class="nc"><i>130</i>&nbsp;            float Electricity_amt = 0f;</b>
+<b class="nc"><i>131</i>&nbsp;            float Water_amt = 0f;</b>
+<b class="nc"><i>132</i>&nbsp;            float Loan_amt = 0f;</b>
+<b class="nc"><i>133</i>&nbsp;            float Internet_amt = 0f;</b>
+<b class="nc"><i>134</i>&nbsp;            float Others_amt = 0f;</b>
+<i>135</i>&nbsp;
+<b class="nc"><i>136</i>&nbsp;            for (FixedVO data : fixedList) {</b>
+<b class="nc"><i>137</i>&nbsp;                if (data.getComponent().equals(&quot;Rent&quot;)) {</b>
+<b class="nc"><i>138</i>&nbsp;                    rent_amt = rent_amt + data.getFxd_amt();</b>
+<b class="nc"><i>139</i>&nbsp;                } else if (data.getComponent().equals(&quot;Electricity Bill&quot;)) {</b>
+<b class="nc"><i>140</i>&nbsp;                    Electricity_amt = Electricity_amt + data.getFxd_amt();</b>
+<b class="nc"><i>141</i>&nbsp;                } else if (data.getComponent().equals(&quot;Water Bill&quot;)) {</b>
+<b class="nc"><i>142</i>&nbsp;                    Water_amt = Water_amt + data.getFxd_amt();</b>
+<b class="nc"><i>143</i>&nbsp;                } else if (data.getComponent().equals(&quot;Loan&quot;)) {</b>
+<b class="nc"><i>144</i>&nbsp;                    Loan_amt = Loan_amt + data.getFxd_amt();</b>
+<b class="nc"><i>145</i>&nbsp;                } else if (data.getComponent().equals(&quot;Internet Bill&quot;)) {</b>
+<b class="nc"><i>146</i>&nbsp;                    Internet_amt = Internet_amt + data.getFxd_amt();</b>
+<i>147</i>&nbsp;                } else {
+<b class="nc"><i>148</i>&nbsp;                    Others_amt = Others_amt + data.getFxd_amt();</b>
+<i>149</i>&nbsp;                }
+<b class="nc"><i>150</i>&nbsp;            }</b>
+<b class="nc"><i>151</i>&nbsp;            float[] amts = {rent_amt, Electricity_amt, Water_amt, Loan_amt, Internet_amt, Others_amt};</b>
+<b class="nc"><i>152</i>&nbsp;            String[] comp = {&quot;Rent&quot;, &quot;Electricity Bill&quot;, &quot;Water Bill&quot;, &quot;Loan&quot;, &quot;Internet Bill&quot;, &quot;Others&quot;};</b>
+<b class="nc"><i>153</i>&nbsp;            for (int i = 0; i &lt; comp.length; i++) {</b>
+<b class="nc"><i>154</i>&nbsp;                FixedVO fvo = new FixedVO();</b>
+<b class="nc"><i>155</i>&nbsp;                if (amts[i] &gt; 0) {</b>
+<b class="nc"><i>156</i>&nbsp;                    fvo.setComponent(comp[i]);</b>
+<b class="nc"><i>157</i>&nbsp;                    fvo.setFxd_amt(amts[i]);</b>
+<b class="nc"><i>158</i>&nbsp;                    sortedList.add(fvo);</b>
+<i>159</i>&nbsp;                }
+<i>160</i>&nbsp;            }
+<b class="nc"><i>161</i>&nbsp;            if (inc &gt; 0) {</b>
+<b class="nc"><i>162</i>&nbsp;                for (FixedVO data : sortedList) {</b>
+<b class="nc"><i>163</i>&nbsp;                    float percent = Math.round((data.getFxd_amt() / inc) * 100f);</b>
+<b class="nc"><i>164</i>&nbsp;                    String disPerct = &quot;% \n&quot; + data.getComponent();</b>
+<i>165</i>&nbsp;                    //String disPerct = &quot;%&quot;;
+<b class="nc"><i>166</i>&nbsp;                    chart.setEntryLabelColor(Color.BLACK);</b>
+<b class="nc"><i>167</i>&nbsp;                    chart.setEntryLabelTextSize(13f);</b>
+<b class="nc"><i>168</i>&nbsp;                    chart.setCenterTextSize(15f);</b>
+<b class="nc"><i>169</i>&nbsp;                    yEntrys.add(new PieEntry(percent, disPerct));</b>
+<b class="nc"><i>170</i>&nbsp;                }</b>
+<b class="nc"><i>171</i>&nbsp;                for (FixedVO data : sortedList) {</b>
+<b class="nc"><i>172</i>&nbsp;                    xEntrys.add(data.getComponent());</b>
+<b class="nc"><i>173</i>&nbsp;                }</b>
+<i>174</i>&nbsp;
+<b class="nc"><i>175</i>&nbsp;                PieDataSet pieDataSet = new PieDataSet(yEntrys, &quot;of Total Income&quot;);</b>
+<b class="nc"><i>176</i>&nbsp;                pieDataSet.setSliceSpace(2);</b>
+<b class="nc"><i>177</i>&nbsp;                pieDataSet.setValueTextSize(14);</b>
+<b class="nc"><i>178</i>&nbsp;                pieDataSet.setValueTextColor(Color.BLACK);</b>
+<b class="nc"><i>179</i>&nbsp;                pieDataSet.setValueLineColor(Color.BLACK);</b>
+<b class="nc"><i>180</i>&nbsp;                ArrayList&lt;Integer&gt; colors = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>181</i>&nbsp;                colors.add(Color.BLUE);</b>
+<b class="nc"><i>182</i>&nbsp;                colors.add(Color.RED);</b>
+<b class="nc"><i>183</i>&nbsp;                colors.add(Color.GRAY);</b>
+<b class="nc"><i>184</i>&nbsp;                colors.add(Color.GREEN);</b>
+<b class="nc"><i>185</i>&nbsp;                colors.add(Color.YELLOW);</b>
+<b class="nc"><i>186</i>&nbsp;                colors.add(Color.MAGENTA);</b>
+<i>187</i>&nbsp;
+<b class="nc"><i>188</i>&nbsp;                pieDataSet.setColors(colors);</b>
+<i>189</i>&nbsp;
+<i>190</i>&nbsp;
+<i>191</i>&nbsp;                // Legend legend = fixedChart.getLegend();
+<i>192</i>&nbsp;                //legend.setForm(Legend.LegendForm.CIRCLE);
+<b class="nc"><i>193</i>&nbsp;                PieData pieData = new PieData(pieDataSet);</b>
+<b class="nc"><i>194</i>&nbsp;                pieData.setValueTextColor(Color.BLACK);</b>
+<b class="nc"><i>195</i>&nbsp;                pieData.setValueTextSize(13f);</b>
+<b class="nc"><i>196</i>&nbsp;                fixedChart.getLegend().setTextColor(Color.BLACK);</b>
+<b class="nc"><i>197</i>&nbsp;                fixedChart.getLegend().setWordWrapEnabled(true);</b>
+<b class="nc"><i>198</i>&nbsp;                fixedChart.setData(pieData);</b>
+<b class="nc"><i>199</i>&nbsp;                fixedChart.invalidate();</b>
+<b class="nc"><i>200</i>&nbsp;            } else {</b>
+<b class="nc"><i>201</i>&nbsp;                Toast toast = Toast.makeText(this, &quot;Income not available for the current Month/ selected period&quot;, Toast.LENGTH_SHORT);</b>
+<b class="nc"><i>202</i>&nbsp;                toast.setGravity(Gravity.CENTER, 0, -690);</b>
+<b class="nc"><i>203</i>&nbsp;                toast.show();</b>
+<i>204</i>&nbsp;            }
+<b class="nc"><i>205</i>&nbsp;        }</b>
+<i>206</i>&nbsp;        else {
+<b class="nc"><i>207</i>&nbsp;            Toast toast = Toast.makeText(this, &quot;No Un-Fixed Expenditure available&quot;, Toast.LENGTH_SHORT);</b>
+<b class="nc"><i>208</i>&nbsp;            toast.setGravity(Gravity.CENTER, 0, -690);</b>
+<b class="nc"><i>209</i>&nbsp;            toast.show();</b>
+<i>210</i>&nbsp;        }
+<i>211</i>&nbsp;
+<i>212</i>&nbsp;
+<i>213</i>&nbsp;    }
+<i>214</i>&nbsp;
+<i>215</i>&nbsp;    public void clickFilter(View v){
+<b class="nc"><i>216</i>&nbsp;        Intent i = new Intent(Visualize_Fixed.this, FilterActivity.class);</b>
+<b class="nc"><i>217</i>&nbsp;        i.putExtra(&quot;src&quot;,&quot;FIXED&quot;);</b>
+<b class="nc"><i>218</i>&nbsp;        startActivity(i);</b>
+<i>219</i>&nbsp;    }
+<i>220</i>&nbsp;
+<i>221</i>&nbsp;    public void backNav(View v){
+<b class="nc"><i>222</i>&nbsp;        Intent i = new Intent(Visualize_Fixed.this, DashboardActivity.class);</b>
+<b class="nc"><i>223</i>&nbsp;        startActivity(i);</b>
+<i>224</i>&nbsp;    }
+<i>225</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-06-24 18:02</div>
+</div>
+</body>
+</html>

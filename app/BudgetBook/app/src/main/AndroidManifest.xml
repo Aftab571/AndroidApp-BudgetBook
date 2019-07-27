@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.budgetbook">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/appicon"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/appicon"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".ResetActivity"></activity>
+        <activity android:name=".FilterActivity" />
+        <activity android:name=".IncomeActivity" />
+        <activity android:name=".Visualize_Unfxd" />
+        <activity android:name=".Visualize_Fixed" />
+        <activity android:name=".visualize" />
+        <activity
+            android:name=".FixedActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".UnfixedActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".DashboardActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".LimitsActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".RegisterActivity"
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.budgetbook.FilterActivity"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+    </application>
+
+</manifest>

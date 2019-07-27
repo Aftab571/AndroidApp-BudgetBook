@@ -1,0 +1,74 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: FixedCompService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.budgetbook.service</a> ]
+</div>
+
+<h1>Coverage Summary for Class: FixedCompService (com.example.budgetbook.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">FixedCompService</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.budgetbook.service;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import android.content.ContentValues;
+<i>4</i>&nbsp;import android.content.Context;
+<i>5</i>&nbsp;import android.widget.Button;
+<i>6</i>&nbsp;import android.widget.Spinner;
+<i>7</i>&nbsp;import android.widget.TableLayout;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import com.example.budgetbook.model.FixedVO;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import java.util.ArrayList;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;public interface FixedCompService {
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    boolean addFixedComponents(FixedVO data, Context context, TableLayout tb);
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    void createTab(Context context, TableLayout stk, boolean isAdd);
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    void createTabInc(Context context, TableLayout stk, boolean isAdd);
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    boolean deleteFxd(int name, Context context);
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    boolean addIncome(Context mContext, float income,String idate);
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    ArrayList&lt;FixedVO&gt; getIncome(Context mContext);
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-06-24 18:02</div>
+</div>
+</body>
+</html>

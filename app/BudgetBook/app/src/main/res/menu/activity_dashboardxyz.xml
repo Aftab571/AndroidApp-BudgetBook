@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".DashboardActivity">
+    <item
+        android:id="@+id/down_pdf"
+        android:title="Download PDF - Current Month"
+        app:showAsAction="never" ></item>
+    <item
+        android:id="@+id/email_pdf"
+        android:title="Share PDF - Current Month"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/reset_pin"
+        android:title="Reset PIN"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/exit_app"
+        android:title="EXIT"
+        app:showAsAction="never" />
+</menu>

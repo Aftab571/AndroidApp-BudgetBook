@@ -1,0 +1,353 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Visualize_Unfxd</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.budgetbook</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Visualize_Unfxd (com.example.budgetbook)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Visualize_Unfxd</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 130)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Visualize_Unfxd$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 13)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 143)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.budgetbook;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import android.content.Context;
+<i>4</i>&nbsp;import android.content.Intent;
+<i>5</i>&nbsp;import android.graphics.Color;
+<i>6</i>&nbsp;import android.support.v7.app.AppCompatActivity;
+<i>7</i>&nbsp;import android.os.Bundle;
+<i>8</i>&nbsp;import android.util.Log;
+<i>9</i>&nbsp;import android.view.Gravity;
+<i>10</i>&nbsp;import android.view.View;
+<i>11</i>&nbsp;import android.widget.Toast;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;import com.example.budgetbook.dao.DataBaseHandlerImpl;
+<i>14</i>&nbsp;import com.example.budgetbook.dao.FixedCompDaoHandler;
+<i>15</i>&nbsp;import com.example.budgetbook.dao.UnFxdDao;
+<i>16</i>&nbsp;import com.example.budgetbook.dao.UnFxdDaoImpl;
+<i>17</i>&nbsp;import com.example.budgetbook.model.FilterVO;
+<i>18</i>&nbsp;import com.example.budgetbook.model.FixedVO;
+<i>19</i>&nbsp;import com.github.mikephil.charting.charts.PieChart;
+<i>20</i>&nbsp;import com.github.mikephil.charting.data.Entry;
+<i>21</i>&nbsp;import com.github.mikephil.charting.data.PieData;
+<i>22</i>&nbsp;import com.github.mikephil.charting.data.PieDataSet;
+<i>23</i>&nbsp;import com.github.mikephil.charting.data.PieEntry;
+<i>24</i>&nbsp;import com.github.mikephil.charting.highlight.Highlight;
+<i>25</i>&nbsp;import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;import java.io.Serializable;
+<i>28</i>&nbsp;import java.text.DateFormat;
+<i>29</i>&nbsp;import java.text.SimpleDateFormat;
+<i>30</i>&nbsp;import java.util.ArrayList;
+<i>31</i>&nbsp;import java.util.Calendar;
+<i>32</i>&nbsp;import java.util.Date;
+<i>33</i>&nbsp;import java.util.List;
+<i>34</i>&nbsp;
+<b class="nc"><i>35</i>&nbsp;public class Visualize_Unfxd extends AppCompatActivity implements Serializable {</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    public static final String TAG=&quot;Visualize_Fixed&quot;;
+<i>38</i>&nbsp;    PieChart unfixedChart;
+<i>39</i>&nbsp;    ArrayList&lt;FixedVO&gt; unfixedList;
+<i>40</i>&nbsp;    List&lt;FixedVO&gt; incList;
+<i>41</i>&nbsp;    private Context mContext;
+<i>42</i>&nbsp;    private String to_date;
+<i>43</i>&nbsp;    private String from_date;
+<b class="nc"><i>44</i>&nbsp;    ArrayList&lt;FixedVO&gt; sortedList = new ArrayList&lt;&gt;();</b>
+<i>45</i>&nbsp;    @Override
+<i>46</i>&nbsp;    protected void onCreate(Bundle savedInstanceState) {
+<b class="nc"><i>47</i>&nbsp;        super.onCreate(savedInstanceState);</b>
+<b class="nc"><i>48</i>&nbsp;        setContentView(R.layout.activity_visualize__unfxd);</b>
+<b class="nc"><i>49</i>&nbsp;        unfixedChart = findViewById(R.id.unfixed_chart);</b>
+<i>50</i>&nbsp;        //unfixedChart.setContentDescription(&quot;Fixed Expenditure&quot;);
+<b class="nc"><i>51</i>&nbsp;        unfixedChart.setRotationEnabled(true);</b>
+<b class="nc"><i>52</i>&nbsp;        unfixedChart.setHoleRadius(25f);</b>
+<b class="nc"><i>53</i>&nbsp;        unfixedChart.setCenterText(&quot;Un-Fixed Expenditure&quot;);</b>
+<b class="nc"><i>54</i>&nbsp;        unfixedChart.setTransparentCircleAlpha(0);</b>
+<b class="nc"><i>55</i>&nbsp;        unfixedChart.setDrawEntryLabels(true);</b>
+<b class="nc"><i>56</i>&nbsp;        mContext = this.getApplicationContext();</b>
+<b class="nc"><i>57</i>&nbsp;        Intent i = this.getIntent();</b>
+<i>58</i>&nbsp;
+<b class="nc"><i>59</i>&nbsp;        unfixedList= (ArrayList&lt;FixedVO&gt;)i.getSerializableExtra(&quot;unfxdList&quot;);</b>
+<b class="nc"><i>60</i>&nbsp;        to_date= i.getStringExtra(&quot;todate&quot;);</b>
+<b class="nc"><i>61</i>&nbsp;        from_date= i.getStringExtra(&quot;fromdate&quot;);</b>
+<b class="nc"><i>62</i>&nbsp;        addFixedSet(unfixedChart, mContext,unfixedList);</b>
+<i>63</i>&nbsp;
+<b class="nc"><i>64</i>&nbsp;        unfixedChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {</b>
+<i>65</i>&nbsp;            @Override
+<i>66</i>&nbsp;            public void onValueSelected(Entry e, Highlight h) {
+<b class="nc"><i>67</i>&nbsp;                Log.d(TAG,&quot;e values is&quot;+e.toString());</b>
+<b class="nc"><i>68</i>&nbsp;                Log.d(TAG,&quot;h values is&quot;+h.toString());</b>
+<b class="nc"><i>69</i>&nbsp;                String comp=null;</b>
+<b class="nc"><i>70</i>&nbsp;                Float amt= null;</b>
+<b class="nc"><i>71</i>&nbsp;                for(int i=0;i&lt;sortedList.size();i++){</b>
+<b class="nc"><i>72</i>&nbsp;                    if(h.getX()==i){</b>
+<b class="nc"><i>73</i>&nbsp;                        comp=sortedList.get(i).getComponent();</b>
+<b class="nc"><i>74</i>&nbsp;                        amt= sortedList.get(i).getUnfxd_amt();</b>
+<b class="nc"><i>75</i>&nbsp;                        break;</b>
+<i>76</i>&nbsp;                    }
+<i>77</i>&nbsp;                }
+<i>78</i>&nbsp;
+<b class="nc"><i>79</i>&nbsp;                Toast toast =  Toast.makeText(Visualize_Unfxd.this,&quot;Component : &quot;+ comp + &quot;\n&quot;+&quot;Amount : &quot;+ amt,Toast.LENGTH_LONG);</b>
+<b class="nc"><i>80</i>&nbsp;                toast.setGravity(Gravity.CENTER,0,-690);</b>
+<b class="nc"><i>81</i>&nbsp;                toast.show();</b>
+<i>82</i>&nbsp;            }
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;            @Override
+<i>85</i>&nbsp;            public void onNothingSelected() {
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;            }
+<i>88</i>&nbsp;        });
+<i>89</i>&nbsp;    }
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    public void addFixedSet(PieChart chart, Context context,ArrayList&lt;FixedVO&gt; dataList) {
+<b class="nc"><i>92</i>&nbsp;        ArrayList&lt;PieEntry&gt; yEntrys = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>93</i>&nbsp;        ArrayList&lt;String&gt; xEntrys = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>94</i>&nbsp;        UnFxdDao dao = new UnFxdDaoImpl(context);</b>
+<b class="nc"><i>95</i>&nbsp;        FixedCompDaoHandler fxdao = new DataBaseHandlerImpl(context);</b>
+<b class="nc"><i>96</i>&nbsp;        if(dataList!=null &amp;&amp; !dataList.isEmpty() &amp;&amp; dataList.size()&gt;0){</b>
+<b class="nc"><i>97</i>&nbsp;            unfixedList = dataList;</b>
+<b class="nc"><i>98</i>&nbsp;            incList= ((DataBaseHandlerImpl) fxdao).getIncomeFilter(context,from_date,to_date);</b>
+<i>99</i>&nbsp;        }
+<i>100</i>&nbsp;        else{
+<i>101</i>&nbsp;
+<b class="nc"><i>102</i>&nbsp;            DateFormat sdf = new SimpleDateFormat(&quot;dd-MM-yyyy&quot;);</b>
+<b class="nc"><i>103</i>&nbsp;            Calendar cal = Calendar.getInstance();</b>
+<b class="nc"><i>104</i>&nbsp;            int month =cal.get(Calendar.MONTH);</b>
+<b class="nc"><i>105</i>&nbsp;            int year =cal.get(Calendar.YEAR);</b>
+<b class="nc"><i>106</i>&nbsp;            String start_date = &quot;01-&quot;+(month&lt;10?&quot;0&quot;+(month+1):(month+1))+&quot;-&quot;+year;</b>
+<b class="nc"><i>107</i>&nbsp;            Date today = new Date();</b>
+<i>108</i>&nbsp;
+<b class="nc"><i>109</i>&nbsp;            Calendar calendar = Calendar.getInstance();</b>
+<b class="nc"><i>110</i>&nbsp;            calendar.setTime(today);</b>
+<i>111</i>&nbsp;
+<b class="nc"><i>112</i>&nbsp;            calendar.add(Calendar.MONTH, 1);</b>
+<b class="nc"><i>113</i>&nbsp;            calendar.set(Calendar.DAY_OF_MONTH, 1);</b>
+<b class="nc"><i>114</i>&nbsp;            calendar.add(Calendar.DATE, -1);</b>
+<b class="nc"><i>115</i>&nbsp;            Date lastDayOfMonth = calendar.getTime();</b>
+<i>116</i>&nbsp;
+<b class="nc"><i>117</i>&nbsp;            String end_date = sdf.format(lastDayOfMonth);</b>
+<b class="nc"><i>118</i>&nbsp;            incList= ((DataBaseHandlerImpl) fxdao).getIncomeFilter(context,start_date,end_date);</b>
+<b class="nc"><i>119</i>&nbsp;            FilterVO vo = new FilterVO();</b>
+<b class="nc"><i>120</i>&nbsp;            vo.setFrom(start_date);</b>
+<b class="nc"><i>121</i>&nbsp;            vo.setTo(end_date);</b>
+<b class="nc"><i>122</i>&nbsp;            unfixedList = ((UnFxdDaoImpl) dao).getUnFxdTableFilterData(vo);</b>
+<i>123</i>&nbsp;
+<i>124</i>&nbsp;        }
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;       // incList= ((DataBaseHandlerImpl) fxdao).getIncomeFilter(context,from_date,to_date);
+<i>127</i>&nbsp;
+<b class="nc"><i>128</i>&nbsp;        if(unfixedList!=null &amp;&amp; unfixedList.size()&gt;0) {</b>
+<b class="nc"><i>129</i>&nbsp;            float inc = 0f;</b>
+<b class="nc"><i>130</i>&nbsp;            for (FixedVO data : incList) {</b>
+<b class="nc"><i>131</i>&nbsp;                inc = inc + data.getIncome();</b>
+<b class="nc"><i>132</i>&nbsp;            }</b>
+<i>133</i>&nbsp;
+<b class="nc"><i>134</i>&nbsp;            float food_amt = 0f;</b>
+<b class="nc"><i>135</i>&nbsp;            float Super_amt = 0f;</b>
+<b class="nc"><i>136</i>&nbsp;            float Medical_amt = 0f;</b>
+<b class="nc"><i>137</i>&nbsp;            float Travel_amt = 0f;</b>
+<b class="nc"><i>138</i>&nbsp;            float Entertainment_amt = 0f;</b>
+<b class="nc"><i>139</i>&nbsp;            float Education_amt = 0f;</b>
+<b class="nc"><i>140</i>&nbsp;            float Shopping_amt = 0f;</b>
+<b class="nc"><i>141</i>&nbsp;            float Sports_amt = 0f;</b>
+<b class="nc"><i>142</i>&nbsp;            float Others_amt = 0f;</b>
+<i>143</i>&nbsp;
+<i>144</i>&nbsp;
+<b class="nc"><i>145</i>&nbsp;            for (FixedVO data : unfixedList) {</b>
+<b class="nc"><i>146</i>&nbsp;                if (data.getComponent().equals(&quot;Food&quot;)) {</b>
+<b class="nc"><i>147</i>&nbsp;                    food_amt = food_amt + data.getUnfxd_amt();</b>
+<b class="nc"><i>148</i>&nbsp;                } else if (data.getComponent().equals(&quot;Super market&quot;)) {</b>
+<b class="nc"><i>149</i>&nbsp;                    Super_amt = Super_amt + data.getUnfxd_amt();</b>
+<b class="nc"><i>150</i>&nbsp;                } else if (data.getComponent().equals(&quot;Medical&quot;)) {</b>
+<b class="nc"><i>151</i>&nbsp;                    Medical_amt = Medical_amt + data.getUnfxd_amt();</b>
+<b class="nc"><i>152</i>&nbsp;                } else if (data.getComponent().equals(&quot;Travel&quot;)) {</b>
+<b class="nc"><i>153</i>&nbsp;                    Travel_amt = Travel_amt + data.getUnfxd_amt();</b>
+<b class="nc"><i>154</i>&nbsp;                } else if (data.getComponent().equals(&quot;Entertainment&quot;)) {</b>
+<b class="nc"><i>155</i>&nbsp;                    Entertainment_amt = Entertainment_amt + data.getUnfxd_amt();</b>
+<b class="nc"><i>156</i>&nbsp;                } else if (data.getComponent().equals(&quot;Education&quot;)) {</b>
+<b class="nc"><i>157</i>&nbsp;                    Education_amt = Education_amt + data.getUnfxd_amt();</b>
+<b class="nc"><i>158</i>&nbsp;                } else if (data.getComponent().equals(&quot;Shopping&quot;)) {</b>
+<b class="nc"><i>159</i>&nbsp;                    Shopping_amt = Shopping_amt + data.getUnfxd_amt();</b>
+<b class="nc"><i>160</i>&nbsp;                } else if (data.getComponent().equals(&quot;Sports &amp; Fitness&quot;)) {</b>
+<b class="nc"><i>161</i>&nbsp;                    Sports_amt = Sports_amt + data.getUnfxd_amt();</b>
+<i>162</i>&nbsp;                } else {
+<b class="nc"><i>163</i>&nbsp;                    Others_amt = Others_amt + data.getUnfxd_amt();</b>
+<i>164</i>&nbsp;                }
+<b class="nc"><i>165</i>&nbsp;            }</b>
+<b class="nc"><i>166</i>&nbsp;            float[] amts = {food_amt, Super_amt, Medical_amt, Travel_amt, Entertainment_amt, Education_amt, Shopping_amt, Sports_amt, Others_amt};</b>
+<b class="nc"><i>167</i>&nbsp;            String[] comp = {&quot;Food&quot;, &quot;Super market&quot;, &quot;Medical&quot;, &quot;Travel&quot;, &quot;Entertainment&quot;, &quot;Education&quot;, &quot;Shopping&quot;, &quot;Sports &amp;amp; Fitness&quot;, &quot;Others&quot;};</b>
+<b class="nc"><i>168</i>&nbsp;            for (int i = 0; i &lt; comp.length; i++) {</b>
+<b class="nc"><i>169</i>&nbsp;                FixedVO fvo = new FixedVO();</b>
+<b class="nc"><i>170</i>&nbsp;                if (amts[i] &gt; 0) {</b>
+<b class="nc"><i>171</i>&nbsp;                    fvo.setComponent(comp[i]);</b>
+<b class="nc"><i>172</i>&nbsp;                    fvo.setUnfxd_amt(amts[i]);</b>
+<b class="nc"><i>173</i>&nbsp;                    sortedList.add(fvo);</b>
+<i>174</i>&nbsp;                }
+<i>175</i>&nbsp;            }
+<b class="nc"><i>176</i>&nbsp;            if (inc &gt; 0) {</b>
+<b class="nc"><i>177</i>&nbsp;                for (FixedVO data : sortedList) {</b>
+<b class="nc"><i>178</i>&nbsp;                    float percent = Math.round((data.getUnfxd_amt() / inc) * 100f);</b>
+<b class="nc"><i>179</i>&nbsp;                    String disPerct = &quot;% \n&quot; + data.getComponent();</b>
+<i>180</i>&nbsp;                    //String disPerct = &quot;%&quot;;
+<b class="nc"><i>181</i>&nbsp;                    chart.setEntryLabelColor(Color.BLACK);</b>
+<b class="nc"><i>182</i>&nbsp;                    chart.setEntryLabelTextSize(13f);</b>
+<b class="nc"><i>183</i>&nbsp;                    chart.setCenterTextSize(15f);</b>
+<b class="nc"><i>184</i>&nbsp;                    yEntrys.add(new PieEntry(percent, disPerct));</b>
+<b class="nc"><i>185</i>&nbsp;                }</b>
+<b class="nc"><i>186</i>&nbsp;                for (FixedVO data : sortedList) {</b>
+<b class="nc"><i>187</i>&nbsp;                    xEntrys.add(data.getComponent());</b>
+<b class="nc"><i>188</i>&nbsp;                }</b>
+<i>189</i>&nbsp;
+<b class="nc"><i>190</i>&nbsp;                PieDataSet pieDataSet = new PieDataSet(yEntrys, &quot;of Total Income&quot;);</b>
+<i>191</i>&nbsp;               // pieDataSet.setSliceSpace(2);
+<b class="nc"><i>192</i>&nbsp;                pieDataSet.setValueTextSize(14);</b>
+<b class="nc"><i>193</i>&nbsp;                pieDataSet.setValueTextColor(Color.BLACK);</b>
+<b class="nc"><i>194</i>&nbsp;                pieDataSet.setValueLineColor(Color.BLACK);</b>
+<b class="nc"><i>195</i>&nbsp;                ArrayList&lt;Integer&gt; colors = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>196</i>&nbsp;                colors.add(Color.BLUE);</b>
+<b class="nc"><i>197</i>&nbsp;                colors.add(Color.RED);</b>
+<b class="nc"><i>198</i>&nbsp;                colors.add(Color.GRAY);</b>
+<b class="nc"><i>199</i>&nbsp;                colors.add(Color.GREEN);</b>
+<b class="nc"><i>200</i>&nbsp;                colors.add(Color.YELLOW);</b>
+<b class="nc"><i>201</i>&nbsp;                colors.add(Color.MAGENTA);</b>
+<b class="nc"><i>202</i>&nbsp;                colors.add(Color.WHITE);</b>
+<b class="nc"><i>203</i>&nbsp;                colors.add(Color.parseColor(&quot;#750b88&quot;));</b>
+<b class="nc"><i>204</i>&nbsp;                colors.add(Color.CYAN);</b>
+<i>205</i>&nbsp;
+<b class="nc"><i>206</i>&nbsp;                pieDataSet.setColors(colors);</b>
+<i>207</i>&nbsp;
+<i>208</i>&nbsp;
+<i>209</i>&nbsp;                // Legend legend = unfixedChart.getLegend();
+<i>210</i>&nbsp;                //legend.setForm(Legend.LegendForm.CIRCLE);
+<b class="nc"><i>211</i>&nbsp;                PieData pieData = new PieData(pieDataSet);</b>
+<b class="nc"><i>212</i>&nbsp;                pieData.setValueTextColor(Color.BLACK);</b>
+<b class="nc"><i>213</i>&nbsp;                pieData.setValueTextSize(13f);</b>
+<b class="nc"><i>214</i>&nbsp;                unfixedChart.getLegend().setTextColor(Color.BLACK);</b>
+<b class="nc"><i>215</i>&nbsp;                unfixedChart.getLegend().setWordWrapEnabled(true);</b>
+<i>216</i>&nbsp;
+<b class="nc"><i>217</i>&nbsp;                unfixedChart.setData(pieData);</b>
+<b class="nc"><i>218</i>&nbsp;                unfixedChart.invalidate();</b>
+<b class="nc"><i>219</i>&nbsp;            } else {</b>
+<b class="nc"><i>220</i>&nbsp;                Toast toast = Toast.makeText(this, &quot;Income not available for the current Month/ selected period&quot;, Toast.LENGTH_SHORT);</b>
+<b class="nc"><i>221</i>&nbsp;                toast.setGravity(Gravity.CENTER, 0, -690);</b>
+<b class="nc"><i>222</i>&nbsp;                toast.show();</b>
+<i>223</i>&nbsp;            }
+<b class="nc"><i>224</i>&nbsp;        }</b>
+<i>225</i>&nbsp;        else {
+<b class="nc"><i>226</i>&nbsp;            Toast toast = Toast.makeText(this, &quot;No Un-Fixed Expenditure available&quot;, Toast.LENGTH_SHORT);</b>
+<b class="nc"><i>227</i>&nbsp;            toast.setGravity(Gravity.CENTER, 0, -690);</b>
+<b class="nc"><i>228</i>&nbsp;            toast.show();</b>
+<i>229</i>&nbsp;        }
+<i>230</i>&nbsp;
+<i>231</i>&nbsp;
+<i>232</i>&nbsp;    }
+<i>233</i>&nbsp;
+<i>234</i>&nbsp;    public void clickFilter(View v){
+<b class="nc"><i>235</i>&nbsp;        Intent i = new Intent(Visualize_Unfxd.this, FilterActivity.class);</b>
+<b class="nc"><i>236</i>&nbsp;        i.putExtra(&quot;src&quot;,&quot;UNFXD&quot;);</b>
+<b class="nc"><i>237</i>&nbsp;        startActivity(i);</b>
+<i>238</i>&nbsp;    }
+<i>239</i>&nbsp;
+<i>240</i>&nbsp;    public void backNav(View v){
+<b class="nc"><i>241</i>&nbsp;        Intent i = new Intent(Visualize_Unfxd.this, DashboardActivity.class);</b>
+<b class="nc"><i>242</i>&nbsp;        startActivity(i);</b>
+<i>243</i>&nbsp;    }
+<i>244</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-06-24 18:02</div>
+</div>
+</body>
+</html>

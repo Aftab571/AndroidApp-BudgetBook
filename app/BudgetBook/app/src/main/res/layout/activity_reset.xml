@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/newwall"
+    tools:context=".ResetActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/newwall"
+        tools:context=".ResetActivity">
+
+        <ImageButton
+            android:id="@+id/back_btn4"
+            android:layout_width="58dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="68dp"
+            android:background="@android:color/transparent"
+            android:onClick="clickBack"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/scrollView1"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/back" />
+
+        <TextView
+            android:id="@+id/textView32"
+            android:layout_width="11dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="212dp"
+            android:layout_marginRight="212dp"
+            android:layout_marginBottom="24dp"
+            android:text="*"
+            android:textColor="@android:color/holo_red_dark"
+            app:layout_constraintBottom_toBottomOf="@+id/textView37"
+            app:layout_constraintEnd_toEndOf="@+id/textView37" />
+
+        <TextView
+            android:id="@+id/textView36"
+            android:layout_width="129dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="* Mandatory fields"
+            android:textColor="@android:color/holo_red_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/textView35"
+            android:layout_width="11dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="216dp"
+            android:layout_marginRight="216dp"
+            android:layout_marginBottom="24dp"
+            android:text="*"
+            android:textColor="@android:color/holo_red_dark"
+            app:layout_constraintBottom_toBottomOf="@+id/old_pin_text"
+            app:layout_constraintEnd_toEndOf="@+id/old_pin_text" />
+
+
+        <TextView
+            android:id="@+id/reset_text"
+            android:layout_width="157dp"
+            android:layout_height="37dp"
+            android:layout_marginStart="124dp"
+            android:layout_marginLeft="124dp"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:text="Reset PIN"
+            android:textAllCaps="true"
+            android:textColor="@color/colorAccent"
+            android:textSize="24sp"
+            android:textStyle="bold|italic"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/old_pin_text"
+            android:layout_width="217dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="68dp"
+            android:layout_marginLeft="68dp"
+            android:layout_marginTop="116dp"
+            android:text="Enter Old PIN"
+            android:textAllCaps="false"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            android:textStyle="bold|italic"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/reset_pin_btn"
+            android:layout_width="110dp"
+            android:layout_height="68dp"
+            android:layout_marginStart="148dp"
+            android:layout_marginLeft="148dp"
+            android:layout_marginTop="372dp"
+            android:background="@android:color/transparent"
+            android:onClick="reset_pin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/resetpass" />
+
+        <TextView
+            android:id="@+id/textView37"
+            android:layout_width="216dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="68dp"
+            android:layout_marginLeft="68dp"
+            android:layout_marginTop="252dp"
+            android:text="Enter New PIN"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            android:textStyle="bold|italic"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <com.goodiebag.pinview.Pinview
+        android:id="@+id/new_pin"
+        android:layout_width="274dp"
+        android:layout_height="62dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="68dp"
+        android:layout_marginLeft="68dp"
+        android:layout_marginTop="292dp"
+        app:cursorVisible="true"
+        app:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:password="true"
+        app:pinHeight="40dp"
+        app:pinLength="4"
+        app:pinWidth="40dp">
+
+    </com.goodiebag.pinview.Pinview>
+
+    <com.goodiebag.pinview.Pinview
+        android:id="@+id/old_pin"
+        android:layout_width="274dp"
+        android:layout_height="62dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="68dp"
+        android:layout_marginLeft="68dp"
+        android:layout_marginTop="156dp"
+        app:cursorVisible="true"
+        app:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:password="true"
+        app:pinHeight="40dp"
+        app:pinLength="4"
+        app:pinWidth="40dp">
+
+    </com.goodiebag.pinview.Pinview>
+
+    <ImageButton
+        android:id="@+id/reset_pin"
+        android:layout_width="110dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="148dp"
+        android:layout_marginLeft="148dp"
+        android:layout_marginTop="372dp"
+        android:background="@android:color/transparent"
+        android:onClick="reset_pin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/resetpass" />
+
+</android.support.constraint.ConstraintLayout>

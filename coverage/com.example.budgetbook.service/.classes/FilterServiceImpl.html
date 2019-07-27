@@ -1,0 +1,122 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: FilterServiceImpl</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.budgetbook.service</a> ]
+</div>
+
+<h1>Coverage Summary for Class: FilterServiceImpl (com.example.budgetbook.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">FilterServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    81.8%
+  </span>
+  <span class="absValue">
+    (9/ 11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.budgetbook.service;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import android.content.Context;
+<i>4</i>&nbsp;import android.widget.Button;
+<i>5</i>&nbsp;import android.widget.TableLayout;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import com.example.budgetbook.dao.DataBaseHandlerImpl;
+<i>8</i>&nbsp;import com.example.budgetbook.dao.FixedCompDaoHandler;
+<i>9</i>&nbsp;import com.example.budgetbook.dao.UnFxdDao;
+<i>10</i>&nbsp;import com.example.budgetbook.dao.UnFxdDaoImpl;
+<i>11</i>&nbsp;import com.example.budgetbook.model.FilterVO;
+<i>12</i>&nbsp;import com.example.budgetbook.model.FixedVO;
+<i>13</i>&nbsp;import com.example.budgetbook.utility.CommonUtility;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;import java.util.ArrayList;
+<i>16</i>&nbsp;import java.util.List;
+<i>17</i>&nbsp;
+<b class="fc"><i>18</i>&nbsp;public class FilterServiceImpl extends CommonUtility {</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    public void createTable(Context context, TableLayout tab, boolean isAdd, Button next,ArrayList&lt;FixedVO&gt; dataList,String src){
+<b class="nc"><i>21</i>&nbsp;        createTabComm(context,tab,isAdd,dataList,src,true);</b>
+<i>22</i>&nbsp;
+<b class="nc"><i>23</i>&nbsp;    }</b>
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    public ArrayList&lt;FixedVO&gt; searchData(FilterVO data, String src, Context context){
+<i>26</i>&nbsp;
+<b class="fc"><i>27</i>&nbsp;        ArrayList&lt;FixedVO&gt; dataList = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>28</i>&nbsp;        if(src.equals(&quot;FIXED&quot;)){</b>
+<b class="fc"><i>29</i>&nbsp;            FixedCompDaoHandler dao = new DataBaseHandlerImpl(context);</b>
+<b class="fc"><i>30</i>&nbsp;            dataList=((DataBaseHandlerImpl) dao).getFxdTableFilterData(data);</b>
+<b class="fc"><i>31</i>&nbsp;        }</b>
+<i>32</i>&nbsp;        else{
+<b class="fc"><i>33</i>&nbsp;            UnFxdDao dao = new UnFxdDaoImpl(context);</b>
+<b class="fc"><i>34</i>&nbsp;            dataList=((UnFxdDaoImpl) dao).getUnFxdTableFilterData(data);</b>
+<i>35</i>&nbsp;        }
+<i>36</i>&nbsp;
+<b class="fc"><i>37</i>&nbsp;        return dataList;</b>
+<i>38</i>&nbsp;    }
+<i>39</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-06-24 18:02</div>
+</div>
+</body>
+</html>
